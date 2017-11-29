@@ -1,15 +1,27 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
-
+import Mine from '../components/mine/mine'
+import Music from '../components/music-bar/music'
+import Search from '../components/search/search'
 Vue.use(Router)
 
 export default new Router({
-  routes: [
-    {
-      path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
-    }
-  ]
+    mode: 'history',
+    routes: [{
+            path: '/',
+            redirect: '/mine'
+        },
+        {
+            path: '/mine',
+            component: Mine
+        },
+        {
+            path: '/music',
+            component: Music
+        },
+        {
+            path: '/search',
+            component: Search
+        }
+    ]
 })

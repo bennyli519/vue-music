@@ -1,22 +1,24 @@
+
 <template>
   <div id="app">
-    hellow world
+    <m-header></m-header>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
+import MHeader from './components/m-header/m-header'
 export default {
-  name: 'app'
+  name: 'app',
+  components:{
+    MHeader
+  }
 }
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style lang="stylus">
+@import "common/stylus/variable";
+  #app
+    color:$color-theme
 </style>
+
