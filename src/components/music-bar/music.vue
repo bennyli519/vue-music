@@ -11,7 +11,23 @@ Description
 </template>
 
 <script>
-  export default {}
+  import {getRecommend} from 'api/recommend'
+  import {ERR_OK} from 'api/config'
+  export default {
+    created(){
+      this._getRecommend()
+      console.log('aaa')
+    },
+    methods:{
+      _getRecommend(){
+        getRecommend().then((res) => {
+          if(res.code === ERR_OK){
+            console.log(res.data.slider)
+          }
+        })
+      }
+    }
+  }
 </script>
 
 <style lang="css">
