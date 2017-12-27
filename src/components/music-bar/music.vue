@@ -6,14 +6,28 @@ Description
 -->
 <template>
   <div>
-      音乐坊
+    <div v-if="recommends.length"class="slider-wrapper"></div>
+     <slider>
+       <div v-for="item in recommends">
+         <a :href="item.linkUrl">
+           <img :src="item.picUrl">
+         </a>
+       </div>
+     </slider>
+     </div>
   </div>
 </template>
 
 <script>
+  import Slider from 'base/slider/slider'
   import {getRecommend} from 'api/recommend'
   import {ERR_OK} from 'api/config'
   export default {
+    data() {
+      return {
+        recommends:[]
+      }
+    },
     created(){
       this._getRecommend()
       console.log('aaa')
@@ -22,10 +36,13 @@ Description
       _getRecommend(){
         getRecommend().then((res) => {
           if(res.code === ERR_OK){
-            console.log(res.data.slider)
+            this.recommends = res.data.slider
           }
         })
       }
+    },
+    components:{
+      Slider
     }
   }
 </script>
