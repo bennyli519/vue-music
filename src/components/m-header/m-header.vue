@@ -29,6 +29,7 @@ Description
     display:flex
     height:45px
     line-height:45px
+    font-size: $font-size-medium
     .tab-item
       flex:1
       text-align:center
@@ -36,6 +37,8 @@ Description
         color:$color-text-l
       &.router-link-active
         .tab-link
+          padding-bottom:5px
           color:$color-theme
+          border-bottom: 2px solid $color-icon-theme
 </style>
 
