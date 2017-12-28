@@ -7,7 +7,6 @@
     "scripts": {
         "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
         "start": "npm run dev",
-
         "build": "node build/build.js"
     },
     "dependencies": {
@@ -15,7 +14,9 @@
         "vue": "^2.5.2",
         "vue-router": "^3.0.1",
         "vuex": "^2.3.1",
-        "fastclick": "^1.0.6"
+        "fastclick": "^1.0.6",
+        "better-scroll": "^0.1.15",
+        "jsonp": "0.2.1"
     },
     "devDependencies": {
         "autoprefixer": "^7.1.2",

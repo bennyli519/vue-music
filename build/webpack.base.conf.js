@@ -17,15 +17,17 @@ module.exports = {
         path: config.build.assetsRoot,
         filename: '[name].js',
         publicPath: process.env.NODE_ENV === 'production' ?
-            config.build.assetsPublicPath :
-            config.dev.assetsPublicPath
+            config.build.assetsPublicPath : config.dev.assetsPublicPath
     },
     resolve: {
         extensions: ['.js', '.vue', '.json'],
         alias: {
             'vue$': 'vue/dist/vue.esm.js',
             '@': resolve('src'),
-            'common': resolve('src/common')
+            'common': resolve('src/common'),
+            'components': resolve('src/components'),
+            'base': resolve('src/base'),
+            'api': resolve('src/api')
         }
     },
     module: {

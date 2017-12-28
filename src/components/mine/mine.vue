@@ -80,7 +80,7 @@ Description
         font-size :$font-size-small
 
   .mine-content
-    font-size:$font-size-medium-x 
+    font-size:$font-size-medium
     .user
       display:flex
       flex-direction:column
