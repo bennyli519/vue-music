@@ -21,10 +21,12 @@ Description
 
               <!-- 音乐坊导航栏 -->
               <div class="music-nav">
-                  <a href="#" class="nav-item"><i class="icon-music"></i>歌手</a>
-                  <a href="#" class="nav-item"><i class="icon-music"></i>排行</a>
-                  <a href="#" class="nav-item"><i class="icon-music"></i>分类</a>
-                  <a href="#" class="nav-item"><i class="icon-music"></i>电台</a>
+                  <router-link to="/music/singer" class="nav-item" >
+                    <i class="icon-singer"></i>歌手
+                  </router-link>
+                  <a href="#" class="nav-item"><i class="icon-rank"></i>排行</a>
+                  <a href="#" class="nav-item"><i class="icon-type"></i>分类</a>
+                  <a href="#" class="nav-item"><i class="icon-broadcast"></i>电台</a>
               </div>
 
               <!-- 新歌速递 -->
@@ -32,8 +34,8 @@ Description
                   <h1 class="list-title">新歌速递</h1>
                   <div class="item-list">
                       <div class="item-wrapper" v-for="i in 3">
-                        <img src="../../common/image/default.png" width="100">
-                        <p>每日新歌：全个性感音色</p>
+                        <img src="../../common/image/default.png" >
+                        <p class="newsong-desc">每日新歌：全个性感音色</p>
                     </div>
                   </div>
               </div>
@@ -41,7 +43,7 @@ Description
               <div class="recommend-list">
                   <h1 class="list-title">热门歌单推荐</h1>
                   <ul>
-                    <li class="item"  v-for="i in 2">
+                    <li class="item"  v-for="i in 5">
                       <div class="icon">
                         <img src="../../common/image/default.png" width="60" height="60">
                       </div>
@@ -54,21 +56,24 @@ Description
               </div>
           </div>
      </div>
+     <router-view></router-view>
   </div>
 </template>
 
 <script>
   import Slider from 'base/slider/slider'
-  import {getRecommend} from 'api/recommend'
+  import {getRecommend,getDiscList} from 'api/recommend'
   import {ERR_OK} from 'api/config'
   export default {
     data() {
       return {
-        recommends:[]
+        recommends:[],
+        discList: []
       }
     },
     created(){
       this._getRecommend()
+      this._getDiscList()
       console.log('aaa')
     },
     methods:{
@@ -76,6 +81,14 @@ Description
         getRecommend().then((res) => {
           if(res.code === ERR_OK){
             this.recommends = res.data.slider
+          }
+        })
+      },
+      _getDiscList() {
+        getDiscList().then((res) => {
+          if (res.code === ERR_OK) {
+            // this.discList = res.data.list
+            console.log(res.data.list)
           }
         })
       }
@@ -88,7 +101,6 @@ Description
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
   @import "~common/stylus/variable"
-
   .music
     //position:fixed
     width: 100%
@@ -106,11 +118,13 @@ Description
         display:flex
         padding-top:15px
         justify-content:space-around
-        .nav-item .icon-music
-          display:block
-          text-align:center
-          margin-bottom:6px
-          color:$color-icon-theme 
+        .nav-item 
+          .icon-singer,.icon-rank,.icon-type,.icon-broadcast
+            display:block
+            text-align:center
+            margin-bottom:10px
+            color:$color-icon-theme 
+            font-size:30px
       .newsong-list
         .list-title
           height: 65px
@@ -124,7 +138,13 @@ Description
           font-size: $font-size-small
           .item-wrapper
             flex:1
-           
+            &:not(:last-child)
+                margin-right:5px
+            img
+              height:128px
+              width:100%
+            .newsong-desc
+              padding:5px 10px
       .recommend-list
         .list-title
           height: 65px

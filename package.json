@@ -1,7 +1,7 @@
 {
-    "name": "money-charge",
+    "name": "music",
     "version": "1.0.0",
-    "description": "A Vue.js project",
+    "description": "毕设imusic",
     "author": "jerry <519248932@qq.com>",
     "private": true,
     "scripts": {
@@ -16,7 +16,8 @@
         "vuex": "^2.3.1",
         "fastclick": "^1.0.6",
         "better-scroll": "^0.1.15",
-        "jsonp": "0.2.1"
+        "jsonp": "0.2.1",
+        "axios": "^0.17.1"
     },
     "devDependencies": {
         "autoprefixer": "^7.1.2",
@@ -34,6 +35,7 @@
         "stylus": "0.52.4",
         "eventsource-polyfill": "^0.9.6",
         "extract-text-webpack-plugin": "^3.0.0",
+        "express": "^4.14.1",
         "file-loader": "^1.1.4",
         "friendly-errors-webpack-plugin": "^1.6.1",
         "html-webpack-plugin": "^2.30.1",
