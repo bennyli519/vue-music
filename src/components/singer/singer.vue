@@ -7,8 +7,9 @@ Description
 <template>
     <div class="singer">
         <div class="back" @click="back">
-            <
+            <i class="icon-left"></i>
         </div>
+         <h1 class="title">歌手</h1>
         <router-view></router-view>
     </div>
 </template>
@@ -50,4 +51,25 @@ Description
     bottom: 0
     width: 100%
     background:$color-background 
+    .back
+        position absolute
+        top: 0
+        left: 6px
+        z-index: 50
+        .icon-left
+            display: block
+            padding: 10px
+            font-size: $font-size-large-x
+            color: $color-theme
+    .title
+        position: absolute
+        top: 0
+        left: 10%
+        z-index: 40
+        width: 80%
+        no-wrap()
+        text-align: center
+        line-height: 40px
+        font-size: $font-size-large
+        color: $color-text
 </style>
