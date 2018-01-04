@@ -216,7 +216,7 @@
         color: $color-text-l
         font-size: $font-size-small
         &.current
-          color: $color-theme
+          color: $color-icon-theme 
     .list-fixed
       position: absolute
       top: 0

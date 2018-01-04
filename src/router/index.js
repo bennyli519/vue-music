@@ -4,6 +4,7 @@ import Mine from 'components/mine/mine'
 import Music from 'components/music-bar/music'
 import Search from 'components/search/search'
 import Singer from 'components/singer/singer'
+import Rank from 'components/rank/rank'
 Vue.use(Router)
 
 export default new Router({
@@ -20,7 +21,8 @@ export default new Router({
             path: '/music',
             component: Music,
             children: [
-                { path: 'singer', component: Singer }
+                { path: 'singer', component: Singer },
+                { path: 'rank', component: Rank },
             ]
         },
         {

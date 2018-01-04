@@ -24,7 +24,9 @@ Description
                   <router-link to="/music/singer" class="nav-item" >
                     <i class="icon-singer"></i>歌手
                   </router-link>
-                  <a href="#" class="nav-item"><i class="icon-rank"></i>排行</a>
+                  <router-link to="/music/rank" class="nav-item" >
+                    <i class="icon-rank"></i>排行
+                  </router-link>
                   <a href="#" class="nav-item"><i class="icon-type"></i>分类</a>
                   <a href="#" class="nav-item"><i class="icon-broadcast"></i>电台</a>
               </div>
