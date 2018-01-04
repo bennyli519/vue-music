@@ -141,7 +141,7 @@ Description
             &:not(:last-child)
                 margin-right:5px
             img
-              height:128px
+              height:100px
               width:100%
             .newsong-desc
               padding:5px 10px
