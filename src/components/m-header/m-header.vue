@@ -6,6 +6,9 @@ Description
 -->
 <template>
   <div class="tab">
+    <div class="icon">
+      <i class="icon-sequence"></i>
+    </div>
     <router-link tag="div" class="tab-item" to="/mine">
       <span class="tab-link">我的</span>
     </router-link>
@@ -15,6 +18,7 @@ Description
     <router-link tag="div" class="tab-item" to="/search">
       <span class="tab-link">搜索</span>
     </router-link>
+    <div class="icon"></div>
   </div>
 </template>
 
@@ -30,6 +34,9 @@ Description
     height:45px
     line-height:45px
     font-size: $font-size-medium
+    .icon
+      width 40px
+      text-align center
     .tab-item
       flex:1
       text-align:center

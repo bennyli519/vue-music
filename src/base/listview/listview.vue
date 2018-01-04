@@ -39,7 +39,7 @@
   import {getData} from 'common/js/dom'
 
   const TITLE_HEIGHT = 30
-  const ANCHOR_HEIGHT = 18
+  const ANCHOR_HEIGHT = 18 //每个歌手列表元素的高度
 
   export default {
     props: {
@@ -79,12 +79,12 @@
         this.$emit('select', item)
       },
       onShortcutTouchStart(e) {
-        let anchorIndex = getData(e.target, 'index')
+        let anchorIndex = getData(e.target, 'index') //锚点索引
         let firstTouch = e.touches[0]
-        this.touch.y1 = firstTouch.pageY
+        this.touch.y1 = firstTouch.pageY//保存第一次touch的y 位置
         this.touch.anchorIndex = anchorIndex
 
-        this._scrollTo(anchorIndex)
+        this._scrollTo(anchorIndex)//滚动到相应位置
       },
       onShortcutTouchMove(e) {
         let firstTouch = e.touches[0]

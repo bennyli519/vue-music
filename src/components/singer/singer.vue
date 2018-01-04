@@ -37,6 +37,20 @@ Description
           back(){
               this.$router.back()
           },
+        //  发送Post请求将歌手数据传到后台
+        //   sendSingersMes(singer) {
+        //         this.singers = singer
+        //         console.log(JSON.stringify(this.singers) + 'singers')
+        //         this.$http.post('http://localhost:81/music/admin/singer/getSingerMes', {singer: this.singers}, {emulateJSON: true})
+        //         .then(
+        //             (response) => {
+        //             console.log(response)
+        //             },
+        //             (error) => {
+        //             console.log(error)
+        //             }
+        //         )
+        //     },
           _getSingerList(){
               getSingerList().then((res) => {
                 if (res.code === ERR_OK) {
