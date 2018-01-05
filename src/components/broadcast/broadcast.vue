@@ -5,18 +5,79 @@ Description
 @version 1.0.0
 -->
 <template>
-  <div class="rank">
+  <div class="broadcast">
     <div class="titlebar">
         <div class="back" @click="back">
             <i class="icon-left"></i>
         </div>
-        <h1 class="title">排行</h1>
+        <h1 class="title">电台</h1>
     </div>
-    <scroll class="toplist" ref="toplist">
+    <scroll class="castlist" ref="castlist">
       <ul>
-        <li class="item" v-for="i in 10">
+        <li class="item">
           <div class="icon">
-            <img width="100" height="100" src="../../common/image/toplist.jpg" />
+            <p class="cast-title">热歌</p>
+            <img width="100" height="100" src="../../common/image/hot.jpg" />
+          </div>
+          <ul class="songlist">
+            <li class="song">
+              <span>1</span>
+              <span>狐狸-薛之谦</span>
+            </li>
+            <li class="song">
+              <span>2</span>
+              <span>体面-于文文</span>
+            </li>
+            <li class="song">
+              <span>3</span>
+              <span>FAST-张杰</span>
+            </li>
+          </ul>
+        </li>
+        <li class="item">
+          <div class="icon">
+            <p class="cast-title">个性电台</p>
+            <img width="100" height="100" src="../../common/image/gexing.jpg" />
+          </div>
+          <ul class="songlist">
+            <li class="song">
+              <span>1</span>
+              <span>狐狸-薛之谦</span>
+            </li>
+            <li class="song">
+              <span>2</span>
+              <span>体面-于文文</span>
+            </li>
+            <li class="song">
+              <span>3</span>
+              <span>FAST-张杰</span>
+            </li>
+          </ul>
+        </li>
+        <li class="item">
+          <div class="icon">
+            <p class="cast-title">随心听</p>
+            <img width="100" height="100" src="../../common/image/suixinting.jpg" />
+          </div>
+          <ul class="songlist">
+            <li class="song">
+              <span>1</span>
+              <span>狐狸-薛之谦</span>
+            </li>
+            <li class="song">
+              <span>2</span>
+              <span>体面-于文文</span>
+            </li>
+            <li class="song">
+              <span>3</span>
+              <span>FAST-张杰</span>
+            </li>
+          </ul>
+        </li>
+        <li class="item">
+          <div class="icon">
+            <p class="cast-title">热歌</p>
+            <img width="100" height="100" src="../../common/image/hot.jpg" />
           </div>
           <ul class="songlist">
             <li class="song">
@@ -62,7 +123,7 @@ Description
   @import "~common/stylus/variable"
   @import "~common/stylus/mixin"
 
-  .rank
+  .broadcast
     position: fixed
     top: 0
     bottom: 0
@@ -93,7 +154,7 @@ Description
             line-height: 40px
             font-size: $font-size-large
             color: $color-text
-    .toplist
+    .castlist
       height: 100%
       overflow: hidden
       .item
@@ -104,9 +165,17 @@ Description
         &:last-child
           padding-bottom: 20px
         .icon
+          position relative
+          display flex
+          justify-content center
+          align-items center
           flex: 0 0 100px
           width: 100px
           height: 100px
+          .cast-title
+            position absolute
+            background: #736363ab;
+            padding: 5px;
         .songlist
           flex: 1
           display: flex

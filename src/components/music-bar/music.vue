@@ -27,8 +27,12 @@ Description
                   <router-link to="/music/rank" class="nav-item" >
                     <i class="icon-rank"></i>排行
                   </router-link>
-                  <a href="#" class="nav-item"><i class="icon-type"></i>分类</a>
-                  <a href="#" class="nav-item"><i class="icon-broadcast"></i>电台</a>
+                  <router-link to="/music/type" class="nav-item" >
+                    <i class="icon-type"></i>分类
+                  </router-link>
+                    <router-link to="/music/cast" class="nav-item" >
+                    <i class="icon-broadcast"></i>电台
+                  </router-link>
               </div>
 
               <!-- 新歌速递 -->
