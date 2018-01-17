@@ -79,8 +79,6 @@ Description
     },
     created(){
       this._getRecommend()
-      this._getDiscList()
-      console.log('aaa')
     },
     methods:{
       _getRecommend(){

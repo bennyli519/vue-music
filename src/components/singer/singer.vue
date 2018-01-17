@@ -41,67 +41,72 @@ Description
         //   sendSingersMes(singer) {
         //         this.singers = singer
         //         console.log(JSON.stringify(this.singers) + 'singers')
-        //         this.$http.post('http://localhost:81/music/admin/singer/getSingerMes', {singer: this.singers}, {emulateJSON: true})
-        //         .then(
-        //             (response) => {
-        //             console.log(response)
-        //             },
-        //             (error) => {
-        //             console.log(error)
-        //             }
-        //         )
+                // this.$http.post('http://localhost:81/music/admin/singer/getSingerMes', {singer: this.singers}, {emulateJSON: true})
+                // .then(
+                //     (response) => {
+                //     console.log(response)
+                //     },
+                //     (error) => {
+                //     console.log(error)
+                //     }
+                // )
         //     },
+        //   _getSingerList(){
+        //       getSingerList().then((res) => {
+        //         if (res.code === ERR_OK) {
+        //             this.singers = this._normalizeSinger(res.data.list)
+        //             console.log(res.data.list)
+        //         }
+        //       })
+        //   },
           _getSingerList(){
-              getSingerList().then((res) => {
-                if (res.code === ERR_OK) {
-                    this.singers = this._normalizeSinger(res.data.list)
-                    console.log(this.singers)
-                }
-              })
+                this.$http.get('http://localhost:81/music/admin/singer/sendSingersMes', {emulateJSON: true})
+                .then(
+                    (response) => {
+                       this.singers = this._normalizeSinger(response.data)
+                       console.log(this.singers)
+                    },
+                    (error) => {
+                    console.log(error)
+                    }
+                )
           },
           _normalizeSinger(list) {
 
             let map = {
-            hot: {
-                title: HOT_NAME,
-                items: []
-            }
-            }
-            list.forEach((item, index) => {
-            if (index < HOT_SINGER_LEN) {
-                map.hot.items.push(new Singer({
-                name: item.Fsinger_name,
-                id: item.Fsinger_mid
-                }))
-            }
-            const key = item.Findex
-            if (!map[key]) {
-                map[key] = {
-                title: key,
-                items: []
+                
+                hot: {
+                    title: HOT_NAME,
+                    items: []
                 }
             }
-            map[key].items.push(new Singer({
-                name: item.Fsinger_name,
-                id: item.Fsinger_mid
-            }))
-            })
-            // 为了得到有序列表，我们需要处理 map
-            let ret = []
-            let hot = []
-            for (let key in map) {
-            let val = map[key]
-            if (val.title.match(/[a-zA-Z]/)) {
-                ret.push(val)
-            } else if (val.title === HOT_NAME) {
-                hot.push(val)
+            list.forEach((item, index) => {
+                const key = item.singer_findex
+                if (!map[key]) {
+                    map[key] = {
+                    title: key,
+                    items: []
+                    }
+                }
+                map[key].items.push(new Singer({
+                    name: item.singer_name,
+                    id: item.singer_mid
+                }))
+                })
+                // 为了得到有序列表，我们需要处理 map
+                let ret = []
+                let hot = []
+                for (let key in map) {
+                let val = map[key]
+                if (val.title.match(/[a-zA-Z]/)) {
+                    ret.push(val)
+                } 
+                }
+                ret.sort((a, b) => {
+                return a.title.charCodeAt(0) - b.title.charCodeAt(0)
+                })
+                return hot.concat(ret)
             }
-            }
-            ret.sort((a, b) => {
-            return a.title.charCodeAt(0) - b.title.charCodeAt(0)
-            })
-            return hot.concat(ret)
-        }
       },
       components: {
         ListView
