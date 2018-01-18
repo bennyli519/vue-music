@@ -10,7 +10,7 @@ Description
             <i class="icon-left"></i>
         </div>
         <h1 class="title">歌手</h1>
-        <list-view :data="singers" ref="list"></list-view>
+        <list-view @select="selectSinger" :data="singers" ref="list"></list-view>
         <router-view></router-view>
     </div>
 </template>
@@ -20,6 +20,7 @@ Description
   import {getSingerList} from 'api/singer'
   import {ERR_OK} from 'api/config'
   import Singer from 'common/js/singer'
+  import {mapMutations} from 'vuex'
 
   const HOT_SINGER_LEN = 10
   const HOT_NAME = '热门'
@@ -51,62 +52,63 @@ Description
                 //     }
                 // )
         //     },
-        //   _getSingerList(){
-        //       getSingerList().then((res) => {
-        //         if (res.code === ERR_OK) {
-        //             this.singers = this._normalizeSinger(res.data.list)
-        //             console.log(res.data.list)
-        //         }
-        //       })
-        //   },
-          _getSingerList(){
-                this.$http.get('http://localhost:81/music/admin/singer/sendSingersMes', {emulateJSON: true})
-                .then(
-                    (response) => {
-                       this.singers = this._normalizeSinger(response.data)
-                       console.log(this.singers)
-                    },
-                    (error) => {
-                    console.log(error)
-                    }
-                )
-          },
-          _normalizeSinger(list) {
+        selectSinger(singer){
+            this.$router.push({
+                path:`singer/${singer.id}`
+            })
+            this.setSinger(singer)
+        },
+        _getSingerList(){
+            this.$http.get('http://localhost:81/music/admin/api/sendSingersMes', {emulateJSON: true})
+            .then(
+                (response) => {
+                    this.singers = this._normalizeSinger(response.data)
+                    console.log(this.singers)
+                },
+                (error) => {
+                console.log(error)
+                }
+            )
+        },
+        _normalizeSinger(list) {
 
-            let map = {
-                
-                hot: {
-                    title: HOT_NAME,
-                    items: []
+        let map = {
+
+            hot: {
+                title: HOT_NAME,
+                items: []
+            }
+        }
+        list.forEach((item, index) => {
+            const key = item.singer_findex
+            if (!map[key]) {
+                map[key] = {
+                title: key,
+                items: []
                 }
             }
-            list.forEach((item, index) => {
-                const key = item.singer_findex
-                if (!map[key]) {
-                    map[key] = {
-                    title: key,
-                    items: []
-                    }
-                }
-                map[key].items.push(new Singer({
-                    name: item.singer_name,
-                    id: item.singer_mid
-                }))
-                })
-                // 为了得到有序列表，我们需要处理 map
-                let ret = []
-                let hot = []
-                for (let key in map) {
-                let val = map[key]
-                if (val.title.match(/[a-zA-Z]/)) {
-                    ret.push(val)
-                } 
-                }
-                ret.sort((a, b) => {
-                return a.title.charCodeAt(0) - b.title.charCodeAt(0)
-                })
-                return hot.concat(ret)
+            map[key].items.push(new Singer({
+                name: item.singer_name,
+                id: item.singer_mid
+            }))
+            })
+            // 为了得到有序列表，我们需要处理 map
+            let ret = []
+            let hot = []
+            for (let key in map) {
+            let val = map[key]
+            if (val.title.match(/[a-zA-Z]/)) {
+                ret.push(val)
+            } 
             }
+            ret.sort((a, b) => {
+            return a.title.charCodeAt(0) - b.title.charCodeAt(0)
+            })
+            return hot.concat(ret)
+        },
+        ...mapMutations({
+            setSinger:'SET_SINGER'
+        })
       },
       components: {
         ListView

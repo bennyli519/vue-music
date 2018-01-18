@@ -7,11 +7,13 @@ import Singer from 'components/singer/singer'
 import Rank from 'components/rank/rank'
 import Type from 'components/music-type/type'
 import Cast from 'components/broadcast/broadcast'
+import SingerDetail from 'components/singer-detail/singer-detail'
 Vue.use(Router)
 
 export default new Router({
     mode: 'history',
-    routes: [{
+    routes: [
+        {
             path: '/',
             redirect: '/mine'
         },
@@ -22,8 +24,16 @@ export default new Router({
         {
             path: '/music',
             component: Music,
-            children: [
-                { path: 'singer', component: Singer },
+            children: 
+            [
+                { 
+                    path: 'singer', 
+                    component: Singer,
+                    children:[{
+                        path:':id',
+                        component:SingerDetail
+                    }]
+                },
                 { path: 'rank', component: Rank },
                 { path: 'type', component: Type },
                 { path: 'cast', component: Cast },
