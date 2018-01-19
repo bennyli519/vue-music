@@ -132,7 +132,7 @@ Description
         .icon-left
             display: block
             padding: 10px
-            font-size: $font-size-large
+            font-size: $font-size-large-x
             color: $color-icon-theme 
     .title
         position: absolute

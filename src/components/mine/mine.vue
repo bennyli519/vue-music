@@ -5,57 +5,59 @@ Description
 @version 1.0.0
 -->
 <template>
-  <div class="mine-content">
-    <div class="user">
-      <i class="icon"></i>
-      <div class="user-name">Benny_lzb</div>
-    </div>
-    <div class="mine-nav">
-      <a href="#" class="nav-item"><i class="icon-music"></i><span>全部歌曲</span></a>
-      <a href="#" class="nav-item"><i class="icon-download"></i><span>下载歌曲</span></a>
-      <a href="#" class="nav-item"><i class="icon-recent"></i><span>最近播放</span></a>
-      <a href="#" class="nav-item"><i class="icon-favoriate"></i><span>我喜欢</span></a>
-    </div>
-    <ul class="broad-cast-list">
-      <li>
-        <div class="media">
-          <div class="media-left"><img src="../../common/image/default.png" alt=""></div>
-          <div class="media-body">
-            <span class="title">个性电台</span>
-            <p class="recommend">来听听我为你定制的音乐吧！</p>
-          </div>
-        </div>
-      </li>
-    </ul>
-    <div class="songList">
-      <div class="list-title">
-        <a href="#" class="self-list">自建歌单</a>
-        <a href="#" class="collect-list">收藏歌单</a>
-        <a href="#" class="add" ><i class="icon-add"></i></a>
-        <a href="#" class="playlist"><i class="icon-list"></i></a>
+
+    <div class="mine-content">
+      <div class="user">
+        <i class="icon"></i>
+        <div class="user-name">Benny_lzb</div>
       </div>
-      <ul class="personal-list">
-          <li>
-              <div class="media">
-                <div class="media-left"><img src="../../common/image/default.png" alt=""></div>
-                <div class="media-body">
-                  <span class="title">歌单1</span>
-                  <p class="recommend">来听听我为你定制的音乐吧！</p>
-                </div>
-              </div>
-          </li>
-          <li>
-              <div class="media">
-                <div class="media-left"><img src="../../common/image/default.png" alt=""></div>
-                <div class="media-body">
-                  <span class="title">歌单2</span>
-                  <p class="recommend">来听听我为你定制的音乐吧！</p>
-                </div>
-              </div>
-          </li>
+      <div class="mine-nav">
+        <a href="#" class="nav-item"><i class="icon-music"></i><span>全部歌曲</span></a>
+        <a href="#" class="nav-item"><i class="icon-download"></i><span>下载歌曲</span></a>
+        <a href="#" class="nav-item"><i class="icon-recent"></i><span>最近播放</span></a>
+        <a href="#" class="nav-item"><i class="icon-favoriate"></i><span>我喜欢</span></a>
+      </div>
+      <ul class="broad-cast-list">
+        <li>
+          <div class="media">
+            <div class="media-left"><img src="../../common/image/default.png" alt=""></div>
+            <div class="media-body">
+              <span class="title">个性电台</span>
+              <p class="recommend">来听听我为你定制的音乐吧！</p>
+            </div>
+          </div>
+        </li>
       </ul>
+      <div class="songList">
+        <div class="list-title">
+          <a href="#" class="self-list">自建歌单</a>
+          <a href="#" class="collect-list">收藏歌单</a>
+          <a href="#" class="add" ><i class="icon-add"></i></a>
+          <a href="#" class="playlist"><i class="icon-list"></i></a>
+        </div>
+        <ul class="personal-list">
+            <li>
+                <div class="media">
+                  <div class="media-left"><img src="../../common/image/default.png" alt=""></div>
+                  <div class="media-body">
+                    <span class="title">歌单1</span>
+                    <p class="recommend">来听听我为你定制的音乐吧！</p>
+                  </div>
+                </div>
+            </li>
+            <li>
+                <div class="media">
+                  <div class="media-left"><img src="../../common/image/default.png" alt=""></div>
+                  <div class="media-body">
+                    <span class="title">歌单2</span>
+                    <p class="recommend">来听听我为你定制的音乐吧！</p>
+                  </div>
+                </div>
+            </li>
+        </ul>
+      </div>
     </div>
-  </div>
+
 </template>
 
 <script>
