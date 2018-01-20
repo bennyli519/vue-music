@@ -31,6 +31,7 @@
   import SongList from 'base/song-list/song-list'
   import Loading from 'base/loading/loading'
   import {prefixStyle} from 'common/js/dom'
+  import {mapActions} from 'vuex'
 
   const RESERVED_HEIGHT = 40
   const transform = prefixStyle('transform')
@@ -123,10 +124,10 @@
           list: this.songs
         })
       },
-    //   ...mapActions([
-    //     'selectPlay',
-    //     'randomPlay'
-    //   ])
+      ...mapActions([
+        'selectPlay',
+        'randomPlay'
+      ])
     },
     components: {
       Loading,
