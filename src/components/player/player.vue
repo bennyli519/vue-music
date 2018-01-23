@@ -41,8 +41,8 @@
                     <span class="time time-r">{{format(currentSong.duration)}}</span>
                 </div>
                 <div class="operators">
-                    <div class="icon i-left">
-                        <i class="icon-loop"></i>
+                    <div class="icon i-left" @click="changeMode">
+                        <i :class="iconMode"></i>
                     </div>
                     <div class="icon i-left" :class="disableCls">
                         <i @click="prev" class="icon-prev_circle"></i>
@@ -89,6 +89,7 @@
   import {prefixStyle} from 'common/js/dom'
   import ProgressBar from 'base/progress-bar/progress-bar'
   import ProgressCircle from 'base/progress-circle/progress-circle'
+  import {playMode} from 'common/js/config'
   const transform = prefixStyle('transform')
   const transitionDuration = prefixStyle('transitionDuration')
 
@@ -116,12 +117,16 @@
         percent(){
             return this.currentTime/ this.currentSong.duration
         },
+        iconMode(){
+            return this.mode === playMode.sequence ? 'icon-sequence' : this.mode === playMode.loop? 'icon-loop' : 'icon-random'
+        },
         ...mapGetters([
             'fullScreen',
             'playlist',
             'currentSong',
             'playing',
-            'currentIndex'
+            'currentIndex',
+            'mode'
         ])
     },
     methods: {
@@ -238,6 +243,10 @@
                 this.currentLyric.seek(currentTime * 1000)
             }
         },
+        changeMode(){
+            const mode = (this.mode + 1) % 3
+            this.setPlayMode(mode)
+        },
         _getPosAndScale() {
             const targetWidth = 40
             const paddingLeft = 40
@@ -256,7 +265,8 @@
         ...mapMutations({
             setFullScreen:'SET_FULL_SCREEN',
             setPlayingState:'SET_PLAYING_STATE',
-            setCurrentIndex:'SET_CURRENT_INDEX'
+            setCurrentIndex:'SET_CURRENT_INDEX',
+            setPlayMode:'SET_PLAY_MODE'
         })
     },
     watch:{
