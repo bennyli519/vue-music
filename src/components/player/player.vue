@@ -34,6 +34,9 @@
                             <img src="#" alt="" class="image"  :src="currentSong.image">
                         </div>
                     </div>
+                    <div class="playing-lyric-wrapper">
+                        <div class="playing-lyric">{{ playingLyric }}</div>
+                    </div>
                 </div>
                 <scroll class="middle-r" ref="lyricList" :data="currentLyric && currentLyric.lines">
                     <div class="lyric-wrapper">
@@ -124,7 +127,8 @@
             radius: 32,
             currentLyric: null,
             currentLineNum: 0,
-            currentShow: 'cd'
+            currentShow: 'cd',
+            playingLyric:''
         }
     },
     created(){
@@ -211,6 +215,9 @@
                 return
             }
             this.setPlayingState(!this.playing)
+            if(this.currentLyric){
+                this.currentLyric.togglePlay()
+            }
         },
         end() {
             if (this.mode === playMode.loop) {
@@ -231,13 +238,17 @@
             if(!this.songReady){
                 return
             }
-            let index = this.currentIndex + 1
-            if(index === this.playlist.length){
-                index = 0
-            }
-            this.setCurrentIndex(index)
-            if(!this.playing){
-                this.togglePlaying()
+            if(this.playlist.length === 1){
+                this.loop()
+            }else{
+                let index = this.currentIndex + 1
+                if(index === this.playlist.length){
+                    index = 0
+                }
+                this.setCurrentIndex(index)
+                if(!this.playing){
+                    this.togglePlaying()
+                }
             }
             this.songReady = false
         },
@@ -245,13 +256,17 @@
             if(!this.songReady){
                 return
             }
-            let index = this.currentIndex - 1
-            if(index === -1){
-                index = this.playlist.length - 1
-            }
-            this.setCurrentIndex(index)
-            if(!this.playing){
-                this.togglePlaying()
+            if(this.playlist.length === 1){
+                this.loop()
+            }else{
+                let index = this.currentIndex - 1
+                if(index === -1){
+                    index = this.playlist.length - 1
+                }
+                this.setCurrentIndex(index)
+                if(!this.playing){
+                    this.togglePlaying()
+                }
             }
             this.songReady = false
         },
@@ -313,7 +328,10 @@
                 if(this.playing){
                     this.currentLyric.play()
                 }
-                console.log(this.currentLyric)
+            }).catch(()=>{
+                this.currentLyric = null
+                this.playingLyric = ''
+                this.currentLineNum = 0
             })
         },
         handleLyric({lineNum, txt}) {
@@ -418,11 +436,11 @@
             if(this.currentLyric){
                 this.currentLyric.stop()
             }
-            this.$nextTick(()=>{
+            setTimeout(()=>{
                 this.$refs.audio.play()
                 this.getLyric()
                 // this.currentSong.getLyric()
-            })
+            },1000)
         },
         playing(newPlaying){
             const audio = this.$refs.audio

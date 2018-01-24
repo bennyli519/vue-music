@@ -7,7 +7,7 @@ Description
 <template>
   <div class="tab">
     <div class="icon">
-      <i class="icon-sequence"></i>
+      <i class="icon-sequence1"></i>
     </div>
     <router-link tag="div" class="tab-item" to="/mine">
       <span class="tab-link">我的</span>
