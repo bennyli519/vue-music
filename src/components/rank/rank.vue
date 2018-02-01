@@ -5,38 +5,30 @@ Description
 @version 1.0.0
 -->
 <template>
-  <div class="rank">
+  <div class="rank" ref="rank">
     <div class="titlebar">
         <div class="back" @click="back">
             <i class="icon-left"></i>
         </div>
         <h1 class="title">排行</h1>
     </div>
-    <scroll class="toplist" ref="toplist">
+    <scroll :data="topList" class="toplist" ref="toplist">
       <ul>
-        <li class="item" v-for="i in 10">
+        <li class="item" v-for="item in topList" @click="selectItem(item)">
           <div class="icon">
-            <img width="100" height="100" src="../../common/image/toplist.jpg" />
+            <img width="100" height="100" v-lazy="item.rank_picUrl" />
           </div>
           <ul class="songlist">
-            <li class="song">
-              <span>1</span>
-              <span>狐狸-薛之谦</span>
-            </li>
-            <li class="song">
-              <span>2</span>
-              <span>体面-于文文</span>
-            </li>
-            <li class="song">
-              <span>3</span>
-              <span>FAST-张杰</span>
+            <li class="song" v-for="(song,index) in item.rank_songList">
+              <span>{{ index+1 }}</span>
+              <span>{{ song.song_name }}-{{ song.singer_name }} </span>
             </li>
           </ul>
         </li>
       </ul>
-      <!-- <div class="loading-container">
+       <div class="loading-container" v-show="!topList.length">
         <loading></loading>
-      </div> -->
+      </div> 
     </scroll>
     <router-view></router-view>
   </div>
@@ -45,12 +37,51 @@ Description
 <script>
   import Scroll from 'base/scroll/scroll'
   import Loading from 'base/loading/loading'
+  import {playlistMixin} from 'common/js/mixin'
+  import {mapMutations} from 'vuex'
   export default {
-      methods:{
-          back(){
-              this.$router.back()
-          },
-      },
+  	mixins: [playlistMixin],
+  	created(){
+  		this._getTopList()
+  	},
+  	data(){
+  		return{
+  			topList:[]
+  		}
+  	},
+	  methods:{
+	  	  handlePlaylist(playlist) {
+	        const bottom = playlist.length > 0 ? '60px' : ''
+	
+	        this.$refs.rank.style.bottom = bottom
+	        this.$refs.toplist.refresh()
+        },
+        selectItem(item){
+          this.$router.push({
+            path:`rank/${item.rank_type}`
+          })
+          this.setTopList(item)
+        },
+	      back(){
+	          this.$router.back()
+	      },
+	      _getTopList(){
+	      	  this.$http.post('http://localhost:81/music/admin/api/getTopList', {emulateJSON: true})
+		        .then(
+		            (response) => {
+		                console.log(response.data)
+		                this.topList = response.data
+		                
+		            },
+		            (error) => {
+		                console.log(error)
+		            }
+		        )
+        },
+        ...mapMutations({
+          setTopList: 'SET_TOP_LIST'
+        })
+	  },
     components: {
         Scroll,
         Loading
