@@ -33,10 +33,14 @@
         }
       },
       created(){
-          this._getMusicList()
+        this._getMusicList()
       },
       methods:{
         _getMusicList(){
+            if (!this.topList.rank_type) {
+                this.$router.push('/music/rank')
+                return
+            }  
             this.$http.post('http://localhost:81/music/admin/api/getAreaSong',{area_type: this.topList.rank_type}, {emulateJSON: true})
             .then(
                 (response) => {

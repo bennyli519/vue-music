@@ -40,7 +40,7 @@
       methods:{
            _getDetail() {
                 if (!this.singer.id) {
-                    this.$router.push('/singer')
+                    this.$router.push('/music/singer')
                     return
                 }
                 // this.songs = this._normalizeSongs(res.data.list)
@@ -75,7 +75,7 @@
                     }
                 })
                 return ret
-            },
+            }
       },
       components:{
           MusicList

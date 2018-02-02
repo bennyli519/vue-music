@@ -47,7 +47,7 @@ Description
               </div>
               <!-- 歌单推荐 -->
               <div class="recommend-list">
-                  <h1 class="list-title">热门歌单推荐</h1>
+                  <h1 class="list-title">每日歌曲推荐</h1>
                   <ul>
                     <li class="item"  v-for="i in 5">
                       <div class="icon">

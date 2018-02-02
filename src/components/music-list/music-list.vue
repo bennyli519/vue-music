@@ -160,7 +160,7 @@
         display: block
         padding: 10px
         font-size: $font-size-large-x
-        color: $color-theme
+        color: $color-icon-theme
     .title
       position: absolute
       top: 0
@@ -190,8 +190,8 @@
           padding: 7px 0
           margin: 0 auto
           text-align: center
-          border: 1px solid $color-theme
-          color: $color-theme
+          border: 1px solid $color-icon-theme
+          color:$color-icon-theme
           border-radius: 100px
           font-size: 0
           .icon-play
