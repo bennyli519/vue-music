@@ -14,53 +14,27 @@
     </div>
     <div class="typeBar">
         <h1>歌曲类型分类</h1>
-        <div class="title-list">
-            <div class="column">
-                <div class="title-wrapper">
-                    <span>流行</span>
-                </div>
-                <div class="title-wrapper">
-                    <span>嘻哈</span>
-                </div>
-            </div>
-            <div class="column">
-                <div class="title-wrapper">
-                    <span>情歌</span>
-                </div>
-                <div class="title-wrapper">
-                    <span>流行</span>
-                </div>
-                <div class="title-wrapper">
-                    <span>乡村</span>
-                </div>
-            </div>
-            <div class="column">
-                <div class="title-wrapper">
-                    <span>情歌</span>
-                </div>
-                <div class="title-wrapper">
-                    <span>流行</span>
-                </div>
-                <div class="title-wrapper">
-                    <span>摇滚</span>
-                </div>
+        <ul class="title-list">
+            <li class="title-wrapper"  v-for="item in typeList.songType">
+                <span>{{ item.type_name }}</span>
+            </li>
+        </ul>
+    </div>
+    <div class="singer-type">
+        <h1>歌手类别</h1>
+        <div class="singer-list">
+            <div class="singer-wrapper" v-for="item in typeList.singerType">
+                <img :src="item.picUrl"  width="100" height="100">
+                <p>{{item.title}}</p>
             </div>
         </div>
     </div>
-    <div class="language">
-        <h1>语种分类</h1>
-        <div class="language-list">
-            <div class="language-wrapper">
-                <img src="../../common/image/lan.jpg"  width="85" height="85">
-                <p>英语</p>
-            </div>
-            <div class="language-wrapper">
-                <img src="../../common/image/lan.jpg"  width="85" height="85">
-                <p>粤语</p>
-            </div>
-            <div class="language-wrapper">
-                <img src="../../common/image/lan.jpg"  width="85" height="85">
-                <p>国语</p>
+    <div class="date">
+        <h1>年代分类</h1>
+        <div class="date-list">
+            <div class="date-wrapper" v-for="item in typeList.dateType">
+                <img :src="item.picUrl"  width="100" height="100">
+                <p>{{item.title}}</p>
             </div>
         </div>
     </div>
@@ -69,11 +43,31 @@
 
 <script>
   export default {
-    methods:{
-        back(){
-            this.$router.back()
+        data(){
+            return{
+                typeList:[]
+            }
         },
-    },
+        created(){
+            this._getTypeList();
+        },
+        methods:{
+            back(){
+                this.$router.back()
+            },
+            _getTypeList(){
+                 this.$http.post('http://localhost:81/music/admin/api/getTypeList', {emulateJSON: true})
+		        .then(
+		            (response) => {
+		                this.typeList = response.data
+                        console.log(this.typeList)    
+		            },
+		            (error) => {
+		                console.log(error)
+		            }
+		        )
+            }
+        },
   }
 </script>
 
@@ -117,33 +111,43 @@
             h1
               padding-left 8px
             .title-list
-                display:flex
+                width 100%
                 font-size $font-size-medium-x 
-                .column
-                  flex 1
-                  .title-wrapper
-                    display flex
-                    align-items center
-                    justify-content center
-                    margin 10px 5px
-                    padding 6px
+                .title-wrapper
+                    display inline-block
+                    width 30%
+                    margin 5px
+                    padding 6px 0
+                    text-align center
                     border-radius 3px
                     background $color-dialog-background
-                .column:first-child .title-wrapper:first-child
-                    height 55px
-        .language
+        .singer-type
             margin 15px 8px
             h1
               padding-left 8px
               margin-bottom 10px
-            .language-list
+            .singer-list
               display flex
               flex-direction row
               justify-content space-around
-              .language-wrapper
+              .singer-wrapper
                 margin 10px 5px
                 img
                   border-radius 50%
+                p
+                  margin-top 5px
+                  text-align center
+        .date
+            margin 15px 8px
+            h1
+              padding-left 8px
+              margin-bottom 10px
+            .date-list
+              display flex
+              flex-direction row
+              justify-content space-around
+              .date-wrapper
+                margin 10px 5px
                 p
                   margin-top 5px
                   text-align center
