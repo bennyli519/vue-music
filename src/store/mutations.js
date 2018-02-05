@@ -36,6 +36,12 @@ const mutations = {
   },
   [types.SET_FAVORITE_LIST](state, list) {
     state.favoriteList = list
+  },
+  [types.SET_TYPE_LIST](state, typeList) {
+    state.typeList = typeList
+  },
+  [types.SET_TYPE_AREA](state, typeAreaList) {
+    state.typeAreaList = typeAreaList
   }
 }
 

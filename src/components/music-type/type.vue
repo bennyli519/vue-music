@@ -15,7 +15,7 @@
     <div class="typeBar">
         <h1>歌曲类型分类</h1>
         <ul class="title-list">
-            <li class="title-wrapper"  v-for="item in typeList.songType">
+            <li @click="selectItem(item,0)" class="title-wrapper" v-for="item in typeList.songType">
                 <span>{{ item.type_name }}</span>
             </li>
         </ul>
@@ -23,7 +23,7 @@
     <div class="singer-type">
         <h1>歌手类别</h1>
         <div class="singer-list">
-            <div class="singer-wrapper" v-for="item in typeList.singerType">
+            <div class="singer-wrapper" @click="selectItem(item,1)" v-for="item in typeList.singerType">
                 <img :src="item.picUrl"  width="100" height="100">
                 <p>{{item.title}}</p>
             </div>
@@ -32,16 +32,18 @@
     <div class="date">
         <h1>年代分类</h1>
         <div class="date-list">
-            <div class="date-wrapper" v-for="item in typeList.dateType">
+            <div class="date-wrapper" @click="selectItem(item,2)" v-for="item in typeList.dateType">
                 <img :src="item.picUrl"  width="100" height="100">
                 <p>{{item.title}}</p>
             </div>
         </div>
     </div>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
+  import {mapMutations} from 'vuex'
   export default {
         data(){
             return{
@@ -52,6 +54,13 @@
             this._getTypeList();
         },
         methods:{
+            selectItem(item,$id){
+                this.$router.push({
+                    path:`type/${item.type_id}`,
+                    query:{row:$id}
+                })
+                this.setTypeList(item)
+            },
             back(){
                 this.$router.back()
             },
@@ -66,7 +75,10 @@
 		                console.log(error)
 		            }
 		        )
-            }
+            },
+            ...mapMutations({
+                setTypeList:'SET_TYPE_LIST'
+            })
         },
   }
 </script>

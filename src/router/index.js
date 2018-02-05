@@ -9,6 +9,7 @@ import Type from 'components/music-type/type'
 import Cast from 'components/broadcast/broadcast'
 import SingerDetail from 'components/singer-detail/singer-detail'
 import TopList from 'components/top-list/top-list'
+import TypeDetail from 'components/type-detail/type-detail'
 Vue.use(Router)
 
 export default new Router({
@@ -40,7 +41,14 @@ export default new Router({
                         component: TopList
                     }]
                 },
-                { path: 'type', component: Type },
+                { 
+                    path: 'type',
+                    component: Type,
+                    children: [{
+                        path:':id',
+                        component: TypeDetail
+                    }] 
+                },
                 { path: 'cast', component: Cast },
             ]
         },
