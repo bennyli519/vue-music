@@ -69,7 +69,6 @@ Description
 	      	  this.$http.post('http://localhost:81/music/admin/api/getTopList', {emulateJSON: true})
 		        .then(
 		            (response) => {
-		                console.log(response.data)
 		                this.topList = response.data
 		                
 		            },

@@ -35,31 +35,35 @@ Description
                   </router-link>
               </div>
 
-              <!-- 新歌速递 -->
+              <!-- 歌单推荐 -->
               <div class="newsong-list">
-                  <h1 class="list-title">新歌速递</h1>
+                  <h1 class="list-title">歌单推荐</h1>
                   <div class="item-list">
-                      <div class="item-wrapper" v-for="i in 3">
-                        <img src="../../common/image/default.png" >
-                        <p class="newsong-desc">每日新歌：全个性感音色</p>
+                      <div class="item-wrapper" v-for="item in discList" @click="selectItem(item)">
+                        <img :src="item.list_thumb" >
+                        <p class="newsong-desc">{{ item.list_name }}</p>
                     </div>
                   </div>
               </div>
-              <!-- 歌单推荐 -->
+              <!-- 新歌速递 -->
               <div class="recommend-list">
-                  <h1 class="list-title">每日歌曲推荐</h1>
+                  <h1 class="list-title">新歌速递<i class="icon-right_circle"></i></h1>
                   <ul>
-                    <li class="item"  v-for="i in 5">
+                    <li class="item"  v-for="item in newSongList">
                       <div class="icon">
                         <img src="../../common/image/default.png" width="60" height="60">
                       </div>
                       <div class="text">
-                         <h2 class="name">怀念那些离我而去的旧时光</h2>
-                         <p class="desc">伴你到最后的不是旧人的手，而是伤喉的酒</p>
+                         <h2 class="name">{{ item.song_name }}</h2>
+                         <p class="desc">{{ item.singer_name }}·{{ item.album_name }}</p>
                       </div>
                     </li>
                   </ul>
+                  <div class="loading-container" v-show="!newSongList.length">
+                    <loading></loading>
+                  </div> 
               </div>
+           
           </div>
      </div>
      <router-view></router-view>
@@ -68,19 +72,31 @@ Description
 
 <script>
   import Slider from 'base/slider/slider'
+  import Loading from 'base/loading/loading'
   import {getRecommend,getDiscList} from 'api/recommend'
   import {ERR_OK} from 'api/config'
+import { mapMutations } from 'vuex';
   export default {
     data() {
       return {
         recommends:[],
-        discList: []
+        discList: [],//歌单
+        newSongList:[]//新歌速递
       }
     },
     created(){
       this._getRecommend()
+      this._getNewSongList()
+      this._getDiscList()
+     
     },
     methods:{
+      selectItem(item){
+          this.$router.push({
+            path:`disc/${item.list_id}`
+          })
+          this.setDiscList(item)  
+      },
       _getRecommend(){
         getRecommend().then((res) => {
           if(res.code === ERR_OK){
@@ -89,16 +105,36 @@ Description
         })
       },
       _getDiscList() {
-        getDiscList().then((res) => {
-          if (res.code === ERR_OK) {
-            // this.discList = res.data.list
-            console.log(res.data.list)
-          }
-        })
-      }
+        this.$http.post('http://localhost:81/music/admin/api/getDiscList', {emulateJSON: true})
+        .then(
+            (response) => {
+                this.discList = response.data
+                console.log(this.discList)
+            },
+            (error) => {
+                console.log(error)
+            }
+        )
+      },
+      _getNewSongList(){
+        this.$http.post('http://localhost:81/music/admin/api/getNewSong', {emulateJSON: true})
+        .then(
+            (response) => {
+                this.newSongList = response.data
+                console.log(this.newSongList)
+            },
+            (error) => {
+                console.log(error)
+            }
+        )
+      },
+      ...mapMutations({
+        setDiscList:'SET_DISC'
+      })
     },
     components:{
-      Slider
+      Slider,
+      Loading
     }
   }
 </script>
@@ -113,7 +149,6 @@ Description
     .music-content
       height: 100%
       overflow: hidden
-      background:$color-highlight-background
       .slider-wrapper
         position: relative
         width: 100%
@@ -131,13 +166,20 @@ Description
             font-size:30px
       .newsong-list
         .list-title
+          position relative
           height: 65px
           line-height: 65px
           text-align: center
           font-size: $font-size-medium-x
           color: $color-icon-theme
+          .icon-right_circle
+            position absolute
+            right 10px
+            top 0
+            line-height 65px
         .item-list
           display:flex
+          padding 0 10px
           align-content: space-between
           font-size: $font-size-small
           .item-wrapper
@@ -148,14 +190,21 @@ Description
               height:100px
               width:100%
             .newsong-desc
-              padding:5px 10px
+              font-size $font-size-medium
+              padding:5px 2px
       .recommend-list
         .list-title
+          position relative
           height: 65px
           line-height: 65px
           text-align: center
           font-size: $font-size-medium-x
           color: $color-icon-theme
+          .icon-right_circle
+            position absolute
+            right 10px
+            top 0
+            line-height 65px
         .item
           display: flex
           box-sizing: border-box

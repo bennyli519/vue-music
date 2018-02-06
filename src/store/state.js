@@ -8,7 +8,8 @@ const state = {
     mode: playMode.sequence,
     currentIndex: -1,
     topList:{},
-    typeList:{}
+    typeList:{},
+    disc:{}
 
 }
 

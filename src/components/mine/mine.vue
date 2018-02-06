@@ -30,17 +30,18 @@ Description
       </ul>
       <div class="songList">
         <div class="list-title">
-          <a href="#" class="self-list">自建歌单</a>
+          <h1>每日歌曲推荐</h1>
+          <!-- <a href="#" class="self-list">自建歌单</a>
           <a href="#" class="collect-list">收藏歌单</a>
           <a href="#" class="add" ><i class="icon-add"></i></a>
-          <a href="#" class="playlist"><i class="icon-list"></i></a>
+          <a href="#" class="playlist"><i class="icon-list"></i></a> -->
         </div>
         <ul class="personal-list">
             <li>
                 <div class="media">
                   <div class="media-left"><img src="../../common/image/default.png" alt=""></div>
                   <div class="media-body">
-                    <span class="title">歌单1</span>
+                    <span class="title">歌曲一</span>
                     <p class="recommend">来听听我为你定制的音乐吧！</p>
                   </div>
                 </div>
@@ -49,7 +50,7 @@ Description
                 <div class="media">
                   <div class="media-left"><img src="../../common/image/default.png" alt=""></div>
                   <div class="media-body">
-                    <span class="title">歌单2</span>
+                    <span class="title">歌曲2</span>
                     <p class="recommend">来听听我为你定制的音乐吧！</p>
                   </div>
                 </div>
@@ -131,22 +132,8 @@ Description
         height:50px
         justify-content:center
         align-items: center
+        color #68de6c
         border-bottom:1px solid $color-border
-        .collect-list:before
-          content:'|'
-          margin:0 5px
-        .add
-          position:absolute
-          right:50px
-          .icon-add
-            font-size:$font-size-large
-            color:$color-theme
-        .playlist
-          position:absolute
-          right:20px
-          .icon-list
-            font-size:$font-size-large
-            color:$color-theme
       .personal-list
         li
           border-bottom:1px solid $color-border
