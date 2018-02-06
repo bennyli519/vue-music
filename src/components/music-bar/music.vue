@@ -40,7 +40,14 @@ Description
                   <h1 class="list-title">歌单推荐</h1>
                   <div class="item-list">
                       <div class="item-wrapper" v-for="item in discList" @click="selectItem(item)">
-                        <img :src="item.list_thumb" >
+                        <div class="img-wrapper">
+                          <div class="listen_wrapper">
+                              <i class="icon-listen"></i>
+                              <span class="listen_count">{{ item.list_total | myListen }}</span>
+                          </div>
+                          <img :src="item.list_thumb" >
+                          <i class="icon-play_circle"></i>
+                        </div>
                         <p class="newsong-desc">{{ item.list_name }}</p>
                     </div>
                   </div>
@@ -75,7 +82,7 @@ Description
   import Loading from 'base/loading/loading'
   import {getRecommend,getDiscList} from 'api/recommend'
   import {ERR_OK} from 'api/config'
-import { mapMutations } from 'vuex';
+  import { mapMutations } from 'vuex';
   export default {
     data() {
       return {
@@ -132,6 +139,15 @@ import { mapMutations } from 'vuex';
         setDiscList:'SET_DISC'
       })
     },
+    filters:{
+　　　 myListen:function(count){
+          if(count >= 10000){
+            count = count/10000
+            return count.toFixed(1)+"万" 
+          }
+          return count
+　　　}
+　　},
     components:{
       Slider,
       Loading
@@ -186,9 +202,21 @@ import { mapMutations } from 'vuex';
             flex:1
             &:not(:last-child)
                 margin-right:5px
-            img
-              height:100px
-              width:100%
+            .img-wrapper
+              position relative
+              font-size $font-size-large
+              .listen_wrapper
+                position absolute
+                font-size $font-size-small
+                bottom 8px
+                left 5px
+              .icon-play_circle
+                position absolute
+                bottom 8px
+                right 5px
+              img
+                height:100px
+                width:100%
             .newsong-desc
               font-size $font-size-medium
               padding:5px 2px
