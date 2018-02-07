@@ -56,13 +56,13 @@ Description
               <div class="recommend-list">
                   <h1 class="list-title">新歌速递<i class="icon-right_circle"></i></h1>
                   <ul>
-                    <li class="item"  v-for="item in newSongList">
+                    <li @click="selectSong(item,index)" class="item"  v-for="(item,index) in newSongList">
                       <div class="icon">
-                        <img src="../../common/image/default.png" width="60" height="60">
+                        <img :src="item.image" width="60" height="60">
                       </div>
                       <div class="text">
-                         <h2 class="name">{{ item.song_name }}</h2>
-                         <p class="desc">{{ item.singer_name }}·{{ item.album_name }}</p>
+                         <h2 class="name">{{ item.name }}</h2>
+                         <p class="desc">{{ item.singer }}·{{ item.album }}</p>
                       </div>
                     </li>
                   </ul>
@@ -83,6 +83,8 @@ Description
   import {getRecommend,getDiscList} from 'api/recommend'
   import {ERR_OK} from 'api/config'
   import { mapMutations } from 'vuex';
+  import {mapActions} from 'vuex'
+  import {createSong} from 'common/js/song'
   export default {
     data() {
       return {
@@ -98,6 +100,13 @@ Description
      
     },
     methods:{
+      // 新歌速递点击事件
+      selectSong(item,index){
+        this.selectPlay({
+          list:this.newSongList,
+          index
+        })
+      },
       selectItem(item){
           this.$router.push({
             path:`disc/${item.list_id}`
@@ -127,7 +136,7 @@ Description
         this.$http.post('http://localhost:81/music/admin/api/getNewSong', {emulateJSON: true})
         .then(
             (response) => {
-                this.newSongList = response.data
+                this.newSongList = this._normalizeSongs(response.data)
                 console.log(this.newSongList)
             },
             (error) => {
@@ -135,9 +144,22 @@ Description
             }
         )
       },
+      _normalizeSongs(list) {
+          let ret = []
+          list.forEach((item) => {
+              if (item.song_mid && item.album_mid) {
+                  ret.push(createSong(item,item.song_mid))
+              }
+          })
+          return ret
+      },
       ...mapMutations({
         setDiscList:'SET_DISC'
-      })
+      }),
+      ...mapActions([
+        'selectPlay',
+        'randomPlay'
+      ])
     },
     filters:{
 　　　 myListen:function(count){
