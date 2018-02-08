@@ -7,9 +7,13 @@ Description
 <template>
 
     <div class="mine-content">
-      <div class="user">
-        <i class="icon"></i>
-        <div class="user-name">Benny_lzb</div>
+      <!-- <div class="user">
+        <img :src="userMsg.user_avtar" class="thumb">
+        <div class="user-name">{{ userMsg.user_name }}</div>
+      </div> -->
+      <div class="unLogin">
+        <p class="text">您还未登陆哦~</p>
+        <div class="login-btn">立即登陆</div>
       </div>
       <div class="mine-nav">
         <a href="#" class="nav-item"><i class="icon-music"></i><span>全部歌曲</span></a>
@@ -62,7 +66,16 @@ Description
 </template>
 
 <script>
-  export default {}
+  export default {
+    data(){
+      return{
+        userMsg:''
+      }
+    },
+    created(){
+      this.userMsg = JSON.parse(localStorage.getItem("userMsg"));
+    }
+  }
 </script>
 <style lang="stylus" scoped>
   @import "~common/stylus/variable"
@@ -88,20 +101,31 @@ Description
       display:flex
       flex-direction:column
       align-items:center
-      .icon
+      .thumb
         display: inline-block
         vertical-align: top
         margin: 6px 0px 10px
-        width: 30px
-        height: 32px
-        bg-image('logo')
-        background-size: 30px 32px
+        width: 80px
+        height: 80px
+        border-radius 50%
       .user-name:before
         content:"-"
         margin-right:20px 
       .user-name:after
         content:"-"
         margin-left:20px
+    .unLogin
+      display:flex
+      flex-direction:column
+      align-items:center
+      .text
+        margin 20px 0
+      .login-btn
+        text-align: center;
+        width: 60%;
+        color #000
+        padding 10px 20px
+        background $color-text-l
     .mine-nav
       display:flex
       flex-flow: row wrap

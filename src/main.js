@@ -19,6 +19,35 @@ Vue.use(VueLazyload, {
   })
 Vue.use(VueResource)
     /* eslint-disable no-new */
+
+// 全局导航钩子
+router.beforeEach((to, from, next) => {
+    const userMsg = localStorage.getItem("userMsg");
+    // 判断该路由是否需要登录权限
+    if (to.meta.requireAuth) {
+        // 通过vuex state获取当前的token是否存在
+        // console.log(isEmptyObject(store.state.user)) 
+        if(!isEmptyObject(userMsg)) {   
+            next();
+        }
+        else { 
+            next({
+                path: '/login',
+                query: {redirect: to.fullPath}  // 将跳转的路由path作为参数，登录成功后跳转到该路由
+            })
+        }
+    }
+    else {
+        next();
+    }
+ })
+
+ function isEmptyObject(obj) {
+    for (var key in obj) {
+        return false;
+    }
+    return true;
+ }
 new Vue({
     el: '#app',
     router,

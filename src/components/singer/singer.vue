@@ -42,9 +42,10 @@ import {playlistMixin} from 'common/js/mixin'
             this.$refs.singer.style.bottom = bottom
             this.$refs.list.refresh()
         },
-          back(){
-              this.$router.back()
-          },
+        back(){
+            this.$router.push('/music')
+           // this.$router.back()
+        },
         //  发送Post请求将歌手数据传到后台
         //   sendSingersMes(singer) {
         //         this.singers = singer

@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import Login from 'components/login/login'
 import Mine from 'components/mine/mine'
 import Music from 'components/music-bar/music'
 import Search from 'components/search/search'
@@ -21,7 +22,11 @@ export default new Router({
             redirect: '/mine'
         },
         {
-            path: '/mine',
+            path:'/login',
+            component:Login
+        },
+        {    
+            path: '/mine', 
             component: Mine
         },
         {
@@ -29,6 +34,10 @@ export default new Router({
             component: Music,
             children: [{
                     path: 'singer',
+                    meta: {
+                    // 添加该字段，表示进入这个路由是需要登录的
+                        requireAuth: true,  
+                    }, 
                     component: Singer,
                     children: [{
                         path: ':id',
