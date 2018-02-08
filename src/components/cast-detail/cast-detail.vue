@@ -1,7 +1,7 @@
 <!--
-排行榜详情页
+电台详情页
 @authors Your Name (you@example.org)
-@date    2018-02-01 23:41:33
+@date    2018-02-08 10:41:33
 @version 1.0.0
 -->
 <template>
@@ -17,14 +17,14 @@
   export default {
       computed:{
           title() {
-            return this.topList.rank_topTitle
+            
+            return this.castList.broadcast_name;
           },
           bgImage(){
-
-            return this.topList.rank_picUrl  
+            return this.castList.broadcast_thumb;
           },
           ...mapGetters([
-            'topList'
+            'castList'
           ])
       },
       data(){
@@ -38,15 +38,16 @@
       },
       methods:{
         _getMusicList(){
-            if (!this.topList.rank_type) {
-                this.$router.push('/music/rank')
+            if (!this.castList.broadcast_id) {
+                this.$router.push('/music/cast')
                 return
             }  
-            this.$http.post('http://localhost:81/music/admin/api/getAreaSong',{area_type: this.topList.rank_type}, {emulateJSON: true})
+            this.$http.post('http://localhost:81/music/admin/api/getCastSongList',{cast_id: this.castList.broadcast_id}, {emulateJSON: true})
             .then(
                 (response) => {
-                    this.songs = this._normalizeSongs(response.data)
-                    console.log(this.songs)
+                    console.log(response.data[0].broadcast_list);
+                    this.songs = this._normalizeSongs(response.data[0].broadcast_list)
+                    //console.log(this.songs)
                 },
                 (error) => {
                     console.log(error)

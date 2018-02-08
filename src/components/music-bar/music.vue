@@ -78,6 +78,7 @@ Description
 </template>
 
 <script>
+  import Scroll from 'base/scroll/scroll'
   import Slider from 'base/slider/slider'
   import Loading from 'base/loading/loading'
   import {getRecommend,getDiscList} from 'api/recommend'
@@ -172,7 +173,8 @@ Description
 　　},
     components:{
       Slider,
-      Loading
+      Loading,
+      Scroll
     }
   }
 </script>
@@ -180,7 +182,7 @@ Description
 <style scoped lang="stylus" rel="stylesheet/stylus">
   @import "~common/stylus/variable"
   .music
-    //position:fixed
+    // position:fixed
     width: 100%
     top: 45px
     bottom: 0

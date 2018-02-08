@@ -5,99 +5,29 @@ Description
 @version 1.0.0
 -->
 <template>
-  <div class="broadcast">
+  <div class="broadcast" ref="cast">
     <div class="titlebar">
         <div class="back" @click="back">
             <i class="icon-left"></i>
         </div>
         <h1 class="title">电台</h1>
     </div>
-    <scroll class="castlist" ref="castlist">
+    <scroll :data="castList" class="castlist" ref="castlist">
       <ul>
-        <li class="item">
+        <li class="item" @click="selectItem(item)" v-for="item in castList">
           <div class="icon">
-            <p class="cast-title">热歌</p>
-            <img width="100" height="100" src="../../common/image/hot.jpg" />
+            <p class="cast-title">{{ item.broadcast_name }}</p>
+            <img width="100" height="100" :src="item.broadcast_thumb" />
           </div>
-          <ul class="songlist">
-            <li class="song">
-              <span>1</span>
-              <span>狐狸-薛之谦</span>
-            </li>
-            <li class="song">
-              <span>2</span>
-              <span>体面-于文文</span>
-            </li>
-            <li class="song">
-              <span>3</span>
-              <span>FAST-张杰</span>
-            </li>
-          </ul>
-        </li>
-        <li class="item">
-          <div class="icon">
-            <p class="cast-title">个性电台</p>
-            <img width="100" height="100" src="../../common/image/gexing.jpg" />
+          <div class="text">
+            <div class="desc">{{ item.broadcast_intro }}</div>
+            <div class="name">— {{ item.broadcast_author }}</div>           
           </div>
-          <ul class="songlist">
-            <li class="song">
-              <span>1</span>
-              <span>狐狸-薛之谦</span>
-            </li>
-            <li class="song">
-              <span>2</span>
-              <span>体面-于文文</span>
-            </li>
-            <li class="song">
-              <span>3</span>
-              <span>FAST-张杰</span>
-            </li>
-          </ul>
-        </li>
-        <li class="item">
-          <div class="icon">
-            <p class="cast-title">随心听</p>
-            <img width="100" height="100" src="../../common/image/suixinting.jpg" />
-          </div>
-          <ul class="songlist">
-            <li class="song">
-              <span>1</span>
-              <span>狐狸-薛之谦</span>
-            </li>
-            <li class="song">
-              <span>2</span>
-              <span>体面-于文文</span>
-            </li>
-            <li class="song">
-              <span>3</span>
-              <span>FAST-张杰</span>
-            </li>
-          </ul>
-        </li>
-        <li class="item">
-          <div class="icon">
-            <p class="cast-title">热歌</p>
-            <img width="100" height="100" src="../../common/image/hot.jpg" />
-          </div>
-          <ul class="songlist">
-            <li class="song">
-              <span>1</span>
-              <span>狐狸-薛之谦</span>
-            </li>
-            <li class="song">
-              <span>2</span>
-              <span>体面-于文文</span>
-            </li>
-            <li class="song">
-              <span>3</span>
-              <span>FAST-张杰</span>
-            </li>
-          </ul>
         </li>
       </ul>
-      <!-- <div class="loading-container">
+      <div class="loading-container" v-show="!castList.length">
         <loading></loading>
-      </div> -->
+      </div>
     </scroll>
     <router-view></router-view>
   </div>
@@ -106,12 +36,50 @@ Description
 <script>
   import Scroll from 'base/scroll/scroll'
   import Loading from 'base/loading/loading'
+  import {playlistMixin} from 'common/js/mixin'
+  import {mapMutations} from 'vuex'
   export default {
-      methods:{
-          back(){
-              this.$router.back()
-          },
-      },
+    mixins: [playlistMixin],
+    data(){
+      return{
+        castList:[]
+      }
+    },
+    created(){
+      this._getCastList()
+    },
+    methods:{
+        selectItem(item){
+          this.$router.push({
+            path:`cast/${item.broadcast_id}`
+          })
+          this.setCastList(item)
+        },
+        handlePlaylist(playlist) {
+	        const bottom = playlist.length > 0 ? '60px' : ''
+	
+	        this.$refs.cast.style.bottom = bottom
+	        this.$refs.castlist.refresh()
+        },
+      	_getCastList(){
+	      	  this.$http.post('http://localhost:81/music/admin/api/getBroadCast', {emulateJSON: true})
+		        .then(
+		            (response) => {
+		                this.castList = response.data
+		                console.log(this.castList)
+		            },
+		            (error) => {
+		                console.log(error)
+		            }
+		        )
+        },
+        back(){
+            this.$router.back()
+        },
+        ...mapMutations({
+          setCastList:'SET_CAST_LIST'
+        })
+    },
     components: {
         Scroll,
         Loading
@@ -176,7 +144,7 @@ Description
             position absolute
             background: #736363ab;
             padding: 5px;
-        .songlist
+        .text
           flex: 1
           display: flex
           flex-direction: column
@@ -187,9 +155,12 @@ Description
           background: $color-highlight-background
           color: $color-text-d
           font-size: $font-size-small
-          .song
+          .name
             no-wrap()
-            line-height: 26px
+            margin-top 10px
+            text-align left 
+          .desc
+            line-height: 20px
       .loading-container
         position: absolute
         width: 100%

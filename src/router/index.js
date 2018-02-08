@@ -11,6 +11,7 @@ import SingerDetail from 'components/singer-detail/singer-detail'
 import TopList from 'components/top-list/top-list'
 import TypeDetail from 'components/type-detail/type-detail'
 import DiscDetail from 'components/disc-detail/disc-detail'
+import CastDetail from 'components/cast-detail/cast-detail'
 Vue.use(Router)
 
 export default new Router({
@@ -50,7 +51,14 @@ export default new Router({
                         component: TypeDetail
                     }] 
                 },
-                { path: 'cast', component: Cast },
+                { 
+                    path: 'cast', 
+                    component: Cast,
+                    children:[{
+                        path:':id',
+                        component: CastDetail
+                    }] 
+                },
                 { path: '/disc/:id', component: DiscDetail }
             ]
         },

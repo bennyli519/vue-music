@@ -29,3 +29,5 @@ export const playHistory = state => state.playHistory
 export const favoriteList = state => state.favoriteList
 
 export const typeList = state => state.typeList
+
+export const castList = state => state.castList

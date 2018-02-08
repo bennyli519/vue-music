@@ -26,3 +26,5 @@
  export const SET_TYPE_LIST = 'SET_TYPE_LIST'
   
  export const SET_TYPE_AREA = 'SET_TYPE_AREA'
+
+ export const SET_CAST_LIST = 'SET_CAST_LIST'

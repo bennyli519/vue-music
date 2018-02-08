@@ -9,7 +9,8 @@ const state = {
     currentIndex: -1,
     topList:{},
     typeList:{},
-    disc:{}
+    disc:{},
+    castList:{}
 
 }
 

@@ -42,6 +42,9 @@ const mutations = {
   },
   [types.SET_TYPE_AREA](state, typeAreaList) {
     state.typeAreaList = typeAreaList
+  },
+  [types.SET_CAST_LIST](state, castList) {
+    state.castList = castList
   }
 }
 
