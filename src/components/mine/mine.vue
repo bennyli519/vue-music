@@ -7,13 +7,13 @@ Description
 <template>
 
     <div class="mine-content">
-      <!-- <div class="user">
+      <div class="user" v-if="userMsg">
         <img :src="userMsg.user_avtar" class="thumb">
         <div class="user-name">{{ userMsg.user_name }}</div>
-      </div> -->
-      <div class="unLogin">
+      </div>
+      <div class="unLogin" v-else>
         <p class="text">您还未登陆哦~</p>
-        <div class="login-btn">立即登陆</div>
+        <router-link class="login-btn" to="/login">立即登陆</router-link>
       </div>
       <div class="mine-nav">
         <a href="#" class="nav-item"><i class="icon-music"></i><span>全部歌曲</span></a>
@@ -73,8 +73,15 @@ Description
       }
     },
     created(){
-      this.userMsg = JSON.parse(localStorage.getItem("userMsg"));
+       this.userMsg = JSON.parse(localStorage.getItem("userMsg"));
     }
+     // watch:{
+    //   userMsg:function(nweMsg,oldMsg){
+    //     this.isLogin = true
+    //     console.log("老的"+this.oldMsg)
+    //     console.log("新的"+this.thnewMsg)
+    //   }
+    // },
   }
 </script>
 <style lang="stylus" scoped>
@@ -121,10 +128,12 @@ Description
       .text
         margin 20px 0
       .login-btn
-        text-align: center;
-        width: 60%;
+        text-align center
+        width 60%
         color #000
         padding 10px 20px
+        border-radius 4px
+        box-shadow 1px 2px 10px #b6e092
         background $color-text-l
     .mine-nav
       display:flex

@@ -38,6 +38,7 @@
                         if(this.userMsg.Rstatus){
                             localStorage.setItem("userMsg",userList);
                             this.currentUrl = this.$route.query.redirect
+                            console.log(this.currentUrl)
                             this.$router.push({ path: this.currentUrl })    
                         }else{
                             alert('您所输入的信息有误!')
@@ -47,10 +48,9 @@
                         console.log(error)
                     }
                 )
-            }
-         
-        
+            } 
         }
+       
       }
   }
 </script>
