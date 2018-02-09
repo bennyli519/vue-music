@@ -15,6 +15,7 @@
 </template>
 
 <script>
+  import {mapActions} from 'vuex'
   export default {
       data(){
           return{
@@ -37,6 +38,9 @@
                         const userList = JSON.stringify(this.userMsg);
                         if(this.userMsg.Rstatus){
                             localStorage.setItem("userMsg",userList);
+                            this.loginMes({
+                                userMsg:this.userMsg 
+                            });
                             this.currentUrl = this.$route.query.redirect
                             console.log(this.currentUrl)
                             this.$router.push({ path: this.currentUrl })    
@@ -49,7 +53,10 @@
                     }
                 )
             } 
-        }
+        },
+        ...mapActions([
+            'loginMes'
+        ])
        
       }
   }

@@ -7,9 +7,9 @@ Description
 <template>
 
     <div class="mine-content">
-      <div class="user" v-if="userMsg">
-        <img :src="userMsg.user_avtar" class="thumb">
-        <div class="user-name">{{ userMsg.user_name }}</div>
+      <div class="user" v-if="isLogin">
+        <img :src="userList.user_avtar" class="thumb">
+        <div class="user-name">{{ userList.user_name }}</div>
       </div>
       <div class="unLogin" v-else>
         <p class="text">您还未登陆哦~</p>
@@ -66,15 +66,25 @@ Description
 </template>
 
 <script>
+  import {mapGetters} from 'vuex'
   export default {
     data(){
       return{
-        userMsg:''
+        
       }
     },
+    computed:{
+      ...mapGetters([
+        'isLogin',
+        'userList'
+      ])
+    },
     created(){
-       this.userMsg = JSON.parse(localStorage.getItem("userMsg"));
+        console.log(this.isLogin)
+        console.log(this.userList)
+       //this.userMsg = JSON.parse(localStorage.getItem("userMsg"));
     }
+
      // watch:{
     //   userMsg:function(nweMsg,oldMsg){
     //     this.isLogin = true

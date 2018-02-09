@@ -28,3 +28,7 @@
  export const SET_TYPE_AREA = 'SET_TYPE_AREA'
 
  export const SET_CAST_LIST = 'SET_CAST_LIST'
+ 
+ export const SET_IS_LOGIN = 'SET_IS_LOGIN'
+
+ export const SET_USER_MSG = 'SET_USER_MSG'

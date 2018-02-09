@@ -30,3 +30,8 @@ export const randomPlay = function({ commit }, { list }) {
     commit(types.SET_FULL_SCREEN, true)
     commit(types.SET_PLAYING_STATE, true)
 }
+
+export const loginMes = function({ commit }, { userMsg }) {
+    commit(types.SET_IS_LOGIN, true)
+    commit(types.SET_USER_MSG, userMsg)
+}

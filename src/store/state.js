@@ -1,6 +1,8 @@
 import { playMode } from 'common/js/config'
 const state = {
     singer: {},
+    isLogin:false,
+    userMsg:[],
     playing: false,
     fullScreen: false,
     playlist: [],

@@ -1,6 +1,12 @@
 import * as types from './mutation-types'
 
 const mutations = {
+  [types.SET_IS_LOGIN](state, isLogin) {
+    state.isLogin = isLogin
+  },
+  [types.SET_USER_MSG](state, userMsg) {
+    state.userMsg = userMsg
+  },
   [types.SET_SINGER](state, singer) {
     state.singer = singer
   },
