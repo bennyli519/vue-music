@@ -66,11 +66,11 @@ Description
 </template>
 
 <script>
-  import {mapGetters} from 'vuex'
+  import {mapGetters,mapActions} from 'vuex'
   export default {
     data(){
       return{
-        
+        msg:''
       }
     },
     computed:{
@@ -80,11 +80,18 @@ Description
       ])
     },
     created(){
-        console.log(this.isLogin)
-        console.log(this.userList)
-       //this.userMsg = JSON.parse(localStorage.getItem("userMsg"));
+      this.msg = JSON.parse(localStorage.getItem("userMsg"))
+      if(this.msg){
+          this.loginMes({
+            userMsg:this.msg 
+        });
+      }
+    },
+    methods:{
+        ...mapActions([
+            'loginMes'
+        ])
     }
-
      // watch:{
     //   userMsg:function(nweMsg,oldMsg){
     //     this.isLogin = true

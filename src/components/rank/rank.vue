@@ -6,33 +6,33 @@ Description
 -->
 <template>
   <transition name="slide">
-  <div class="rank" ref="rank">
-    <div class="titlebar">
-        <div class="back" @click="back">
-            <i class="icon-left"></i>
-        </div>
-        <h1 class="title">排行</h1>
-    </div>
-    <scroll :data="topList" class="toplist" ref="toplist">
-      <ul>
-        <li class="item" v-for="item in topList" @click="selectItem(item)">
-          <div class="icon">
-            <img width="100" height="100" v-lazy="item.rank_picUrl" />
+    <div class="rank" ref="rank">
+      <div class="titlebar">
+          <div class="back" @click="back">
+              <i class="icon-left"></i>
           </div>
-          <ul class="songlist">
-            <li class="song" v-for="(song,index) in item.rank_songList">
-              <span>{{ index+1 }}</span>
-              <span>{{ song.song_name }}-{{ song.singer_name }} </span>
-            </li>
-          </ul>
-        </li>
-      </ul>
-       <div class="loading-container" v-show="!topList.length">
-        <loading></loading>
-      </div> 
-    </scroll>
-    <router-view></router-view>
-  </div>
+          <h1 class="title">排行</h1>
+      </div>
+      <scroll :data="topList" class="toplist" ref="toplist">
+        <ul>
+          <li class="item" v-for="item in topList" @click="selectItem(item)">
+            <div class="icon">
+              <img width="100" height="100" v-lazy="item.rank_picUrl" />
+            </div>
+            <ul class="songlist">
+              <li class="song" v-for="(song,index) in item.rank_songList">
+                <span>{{ index+1 }}</span>
+                <span>{{ song.song_name }}-{{ song.singer_name }} </span>
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <div class="loading-container" v-show="!topList.length">
+          <loading></loading>
+        </div> 
+      </scroll>
+      <router-view></router-view>
+    </div>
   </transition>
 </template>
 
@@ -54,7 +54,7 @@ Description
 	  methods:{
 	  	  handlePlaylist(playlist) {
 	        const bottom = playlist.length > 0 ? '60px' : ''
-	
+          console.log("Aaa")
 	        this.$refs.rank.style.bottom = bottom
 	        this.$refs.toplist.refresh()
         },

@@ -169,13 +169,18 @@
             'playing',
             'currentIndex',
             'mode',
-            'sequenceList'
+            'sequenceList',
+            'isLogin'
         ])
     },
     methods: {
         openComment(){
-            console.log('aaa')
-            this.setIsShow(true)
+            if(!this.isLogin){
+                this.$router.push('/login')
+                this.setPlayingState(false)
+            }else{
+                this.setIsShow(true)
+            }
             // this.$router.go({path:'/comment'})
         },
         back() {

@@ -5,45 +5,47 @@
 @version 1.0.0
 -->
 <template>
-  <div class="comment" v-show="isShow">
-    <div class="titlebar">
-        <div class="back" @click="back">
-            <i class="icon-left"></i>
+  <transition name="slide">
+    <div class="comment" v-show="isShow">
+        <div class="titlebar">
+            <div class="back" @click="back">
+                <i class="icon-left"></i>
+            </div>
+            <h1 class="title">评论</h1>
         </div>
-        <h1 class="title">评论</h1>
-    </div>
-     <div class="container">
-         <div class="song-wrapper">
-            <img :src="currentSong.image">
-            <ul class="desc">
-                <li class="name">{{ currentSong.name }}</li>
-                <li class="singer">{{ currentSong.singer }}</li>
-            </ul>
-        </div>
-        <div class="comment-wrapper">
-            <h3>评论区</h3>
-            <div class="msg-container">
-                <div class="msg"  v-for="i in 10">
-                    <div class="img-container">
-                        <img :src="currentSong.image">
-                    </div>
-                    <div class="user">
-                        <div class="username">benny</div>
-                        <div class="date">2018-9-9 21:23</div>
-                        <div class="content">
-                            我们用初中三年去盼望高中三年，高中三年去憧憬大学四年。
-                            而用大学四年去怀念中学六年，最终用一生去祭奠我们的青春。
+        <div class="container">
+            <div class="song-wrapper">
+                <img :src="currentSong.image">
+                <ul class="desc">
+                    <li class="name">{{ currentSong.name }}</li>
+                    <li class="singer">{{ currentSong.singer }}</li>
+                </ul>
+            </div>
+            <div class="comment-wrapper">
+                <h3>评论区</h3>
+                <div class="msg-container">
+                    <div class="msg"  v-for="i in 10">
+                        <div class="img-container">
+                            <img :src="currentSong.image">
+                        </div>
+                        <div class="user">
+                            <div class="username">benny</div>
+                            <div class="date">2018-9-9 21:23</div>
+                            <div class="content">
+                                我们用初中三年去盼望高中三年，高中三年去憧憬大学四年。
+                                而用大学四年去怀念中学六年，最终用一生去祭奠我们的青春。
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-     </div>
-     <div class="comment-footer">
-         <input type="text" placeholder="发表评论">
-         <a href="#" class="sendBtn">发表</a>
-     </div>
-  </div>
+        <div class="comment-footer">
+            <input type="text" placeholder="发表评论">
+            <a href="#" class="sendBtn">发表</a>
+        </div>
+    </div>
+  </transition>
 </template>
 
 <script>
@@ -57,11 +59,12 @@
       computed:{
           ...mapGetters([
               'isShow',
-              'currentSong'
+              'currentSong',
+              'isLogin'
           ])
       },
       created(){
-          console.log(this.currentSong)
+        console.log(this.currentSong)
       },
       methods:{
           back(){
@@ -77,6 +80,11 @@
 <style scoped lang="stylus" rel="stylesheet/stylus">
   @import "~common/stylus/variable"
   @import "~common/stylus/mixin"
+  .slide-enter-active, .slide-leave-active
+    transition: all 0.3s ease
+
+  .slide-enter, .slide-leave-to
+    transform: translate3d(100%, 0, 0)
   .comment
     position: fixed
     top: 0

@@ -5,18 +5,17 @@
 @version 1.0.0
 -->
 <template>
-  <div class="container">
+  <div class="container" ref="container">
     <div class="login-wrapper">
         <input type="text" placeholder="用户名" v-model="username">
         <input type="password" placeholder="密码" v-model="password">
         <a href="#" @click="login" class="btn">登陆</a>
-        <a href="http://isure.stream.qqmusic.qq.com/C100001CG3wA3QkuJS.m4a?fromtag=32" download="xxx">下载</a>
     </div>
   </div>
 </template>
 
 <script>
-  import {mapActions} from 'vuex'
+  import {mapActions,mapMutations} from 'vuex'
   export default {
       data(){
           return{
@@ -29,7 +28,7 @@
       },
       methods:{
         login(){
-            window.open("http://isure.stream.qqmusic.qq.com/C100001CG3wA3QkuJS.m4a?fromtag=32");
+            //window.open("http://isure.stream.qqmusic.qq.com/C100001CG3wA3QkuJS.m4a?fromtag=32");
             if(this.username.trim() == '' || this.password.trim() == '' ){
                 alert('用户名或密码不能为空')
             }else{
@@ -43,9 +42,13 @@
                             this.loginMes({
                                 userMsg:this.userMsg 
                             });
-                            this.currentUrl = this.$route.query.redirect
-                            console.log(this.currentUrl)
-                            this.$router.push({ path: this.currentUrl })    
+                            this.$router.push('/music')
+                            this.setIsShow(true)
+                            this.setPlayingState(true)
+                            this.$refs.container.style['display'] = 'none'
+                            //this.currentUrl = this.$route.query.redirect
+                            // console.log(this.currentUrl)
+                            // this.$router.push({ path: this.currentUrl })    
                         }else{
                             alert('您所输入的信息有误!')
                         }
@@ -56,6 +59,10 @@
                 )
             } 
         },
+        ...mapMutations({
+            setIsShow:'SET_IS_SHOW',
+            setPlayingState:'SET_PLAYING_STATE'
+        }),
         ...mapActions([
             'loginMes'
         ])
