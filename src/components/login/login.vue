@@ -10,6 +10,7 @@
         <input type="text" placeholder="用户名" v-model="username">
         <input type="password" placeholder="密码" v-model="password">
         <a href="#" @click="login" class="btn">登陆</a>
+        <a href="http://isure.stream.qqmusic.qq.com/C100001CG3wA3QkuJS.m4a?fromtag=32" download="xxx">下载</a>
     </div>
   </div>
 </template>
@@ -28,6 +29,7 @@
       },
       methods:{
         login(){
+            window.open("http://isure.stream.qqmusic.qq.com/C100001CG3wA3QkuJS.m4a?fromtag=32");
             if(this.username.trim() == '' || this.password.trim() == '' ){
                 alert('用户名或密码不能为空')
             }else{
@@ -73,6 +75,7 @@
         height 100%
         top 0
         left 0
+        z-index:10000
         .login-wrapper
             margin-bottom 25px
             text-align center

@@ -12,7 +12,8 @@ const state = {
     topList:{},
     typeList:{},
     disc:{},
-    castList:{}
+    castList:{},
+    isShow:false //评论页面
 
 }
 

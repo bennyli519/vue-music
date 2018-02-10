@@ -7,6 +7,9 @@ const mutations = {
   [types.SET_USER_MSG](state, userMsg) {
     state.userMsg = userMsg
   },
+  [types.SET_IS_SHOW](state, isShow) {
+    state.isShow = isShow
+  },
   [types.SET_SINGER](state, singer) {
     state.singer = singer
   },

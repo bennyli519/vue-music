@@ -76,7 +76,16 @@
                         <i @click="next" class="icon-next_circle"></i>
                     </div>
                     <div class="icon i-right">
+                        <i class="icon-playlist"></i>
+                    </div>
+                </div>
+                <div class="operators1">
+                    <div class="icon-wrapper">
                         <i class="icon-favoriate"></i>
+                        <i class="icon-comment" @click="openComment"></i>
+                        <!-- <router-link to="/comment" class="icon"> 
+                            <i class="icon-comment" @click="openComment"></i>
+                        </router-link>  -->
                     </div>
                 </div>
             </div>
@@ -164,6 +173,11 @@
         ])
     },
     methods: {
+        openComment(){
+            console.log('aaa')
+            this.setIsShow(true)
+            // this.$router.go({path:'/comment'})
+        },
         back() {
             this.setFullScreen(false)
         },
@@ -425,7 +439,8 @@
             setPlayingState:'SET_PLAYING_STATE',
             setCurrentIndex:'SET_CURRENT_INDEX',
             setPlayMode:'SET_PLAY_MODE',
-            setPlayList:'SET_PLAYLIST'
+            setPlayList:'SET_PLAYLIST',
+            setIsShow:'SET_IS_SHOW'
         })
     },
     watch:{
@@ -573,7 +588,7 @@
                 color: $color-text
       .bottom
         position: absolute
-        bottom: 50px
+        bottom: 20px
         width: 100%
         .dot-wrapper
           text-align: center
@@ -611,6 +626,7 @@
         .operators
           display: flex
           align-items: center
+          margin-bottom 10px
           .icon
             flex: 1
             color: $color-icon-theme
@@ -627,8 +643,19 @@
               font-size: 40px
           .i-right
             text-align: left
-          .icon-favorite
-            color: $color-sub-theme
+        .operators1
+          display: flex
+          text-align center
+          align-items: center
+          .icon-wrapper
+            margin 0 auto
+            .icon
+                color: $color-text-ll
+            &.disable
+              color: $color-text-ll
+            i        
+              padding:0 20px                                                                                                                                       
+              font-size: 25px
       &.normal-enter-active, &.normal-leave-active
         transition: all 0.4s
         .top, .bottom

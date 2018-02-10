@@ -33,4 +33,7 @@ export const typeList = state => state.typeList
 export const castList = state => state.castList
 
 export const isLogin = state => state.isLogin
+
 export const userList = state => state.userMsg
+
+export const isShow = state => state.isShow

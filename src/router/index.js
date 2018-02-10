@@ -13,6 +13,7 @@ import TopList from 'components/top-list/top-list'
 import TypeDetail from 'components/type-detail/type-detail'
 import DiscDetail from 'components/disc-detail/disc-detail'
 import CastDetail from 'components/cast-detail/cast-detail'
+import CommentDetail from 'components/comment/comment'
 Vue.use(Router)
 
 export default new Router({
@@ -74,6 +75,9 @@ export default new Router({
         {
             path: '/search',
             component: Search
+        },{
+            path:'/comment',
+            component: CommentDetail
         }
     ]
 })

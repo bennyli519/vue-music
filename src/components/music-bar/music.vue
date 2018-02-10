@@ -37,7 +37,7 @@ Description
 
               <!-- 歌单推荐 -->
               <div class="newsong-list">
-                  <h1 class="list-title">歌单推荐</h1>
+                  <h1 class="list-title">热门歌单</h1>
                   <div class="item-list">
                       <div class="item-wrapper" v-for="item in discList" @click="selectItem(item)">
                         <div class="img-wrapper">

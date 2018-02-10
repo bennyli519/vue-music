@@ -32,3 +32,5 @@
  export const SET_IS_LOGIN = 'SET_IS_LOGIN'
 
  export const SET_USER_MSG = 'SET_USER_MSG'
+
+ export const SET_IS_SHOW = 'SET_IS_SHOW'
