@@ -5,6 +5,7 @@ Description
 @version 1.0.0
 -->
 <template>
+  <transition name="slide">
   <div class="rank" ref="rank">
     <div class="titlebar">
         <div class="back" @click="back">
@@ -32,6 +33,7 @@ Description
     </scroll>
     <router-view></router-view>
   </div>
+  </transition>
 </template>
 
 <script>
@@ -91,7 +93,10 @@ Description
 <style scoped lang="stylus" rel="stylesheet/stylus">
   @import "~common/stylus/variable"
   @import "~common/stylus/mixin"
-
+  .slide-enter-active, .slide-leave-active
+    transition: all 0.3s ease
+  .slide-enter, .slide-leave-to
+    transform: translate3d(100%, 0, 0)
   .rank
     position: fixed
     top: 0

@@ -83,10 +83,11 @@ Description
   import Loading from 'base/loading/loading'
   import {getRecommend,getDiscList} from 'api/recommend'
   import {ERR_OK} from 'api/config'
-  import { mapMutations } from 'vuex';
-  import {mapActions} from 'vuex'
+  import { mapMutations,mapActions } from 'vuex';
+  import {playlistMixin} from 'common/js/mixin'
   import {createSong} from 'common/js/song'
   export default {
+    mixins: [playlistMixin],
     data() {
       return {
         recommends:[],
@@ -101,6 +102,10 @@ Description
      
     },
     methods:{
+      handlePlaylist(playlist) {
+        const bottom = playlist.length > 0 ? '60px' : ''
+        this.$refs.scroll.style['padding-bottom'] = bottom
+      },
       // 新歌速递点击事件
       selectSong(item,index){
         this.selectPlay({

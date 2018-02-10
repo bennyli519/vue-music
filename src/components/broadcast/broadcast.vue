@@ -5,32 +5,34 @@ Description
 @version 1.0.0
 -->
 <template>
-  <div class="broadcast" ref="cast">
-    <div class="titlebar">
-        <div class="back" @click="back">
-            <i class="icon-left"></i>
-        </div>
-        <h1 class="title">电台</h1>
-    </div>
-    <scroll :data="castList" class="castlist" ref="castlist">
-      <ul>
-        <li class="item" @click="selectItem(item)" v-for="item in castList">
-          <div class="icon">
-            <p class="cast-title">{{ item.broadcast_name }}</p>
-            <img width="100" height="100" :src="item.broadcast_thumb" />
+  <transition name="slide">
+    <div class="broadcast" ref="cast">
+      <div class="titlebar">
+          <div class="back" @click="back">
+              <i class="icon-left"></i>
           </div>
-          <div class="text">
-            <div class="desc">{{ item.broadcast_intro }}</div>
-            <div class="name">— {{ item.broadcast_author }}</div>           
-          </div>
-        </li>
-      </ul>
-      <div class="loading-container" v-show="!castList.length">
-        <loading></loading>
+          <h1 class="title">电台</h1>
       </div>
-    </scroll>
-    <router-view></router-view>
-  </div>
+      <scroll :data="castList" class="castlist" ref="castlist">
+        <ul>
+          <li class="item" @click="selectItem(item)" v-for="item in castList">
+            <div class="icon">
+              <p class="cast-title">{{ item.broadcast_name }}</p>
+              <img width="100" height="100" :src="item.broadcast_thumb" />
+            </div>
+            <div class="text">
+              <div class="desc">{{ item.broadcast_intro }}</div>
+              <div class="name">— {{ item.broadcast_author }}</div>           
+            </div>
+          </li>
+        </ul>
+        <div class="loading-container" v-show="!castList.length">
+          <loading></loading>
+        </div>
+      </scroll>
+      <router-view></router-view>
+    </div>
+ </transition>
 </template>
 
 <script>
@@ -90,7 +92,11 @@ Description
 <style scoped lang="stylus" rel="stylesheet/stylus">
   @import "~common/stylus/variable"
   @import "~common/stylus/mixin"
+  .slide-enter-active, .slide-leave-active
+    transition: all 0.3s ease
 
+  .slide-enter, .slide-leave-to
+    transform: translate3d(100%, 0, 0)
   .broadcast
     position: fixed
     top: 0

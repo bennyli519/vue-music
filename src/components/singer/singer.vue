@@ -5,14 +5,16 @@ Description
 @version 1.0.0
 -->
 <template>
-    <div class="singer" ref="singer">
-        <div class="back" @click="back">
-            <i class="icon-left"></i>
+    <transition name="slide">
+        <div class="singer" ref="singer">
+            <div class="back" @click="back">
+                <i class="icon-left"></i>
+            </div>
+            <h1 class="title">歌手</h1>
+            <list-view @select="selectSinger" :data="singers" ref="list"></list-view>
+            <router-view></router-view>
         </div>
-        <h1 class="title">歌手</h1>
-        <list-view @select="selectSinger" :data="singers" ref="list"></list-view>
-        <router-view></router-view>
-    </div>
+    </transition> 
 </template>
 
 <script>
@@ -126,6 +128,11 @@ import {playlistMixin} from 'common/js/mixin'
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
   @import "~common/stylus/variable"
+    .slide-enter-active, .slide-leave-active
+        transition: all 0.3s ease
+
+    .slide-enter, .slide-leave-to
+        transform: translate3d(100%, 0, 0)
   .singer
     position: fixed
     top: 0
