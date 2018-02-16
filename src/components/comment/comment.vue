@@ -5,7 +5,7 @@
 @version 1.0.0
 -->
 <template>
-  <transition name="slide">
+  <transition name="slide" @enter="enter">
     <div class="comment" v-show="isShow">
         <div class="titlebar">
             <div class="back" @click="back">
@@ -24,25 +24,28 @@
             <div class="comment-wrapper">
                 <h3>评论区</h3>
                 <div class="msg-container">
-                    <div class="msg"  v-for="i in 10">
+                    <div class="msg"  v-for="item in commentList">
                         <div class="img-container">
-                            <img :src="currentSong.image">
+                            <img :src="item.user_avtar">
                         </div>
                         <div class="user">
-                            <div class="username">benny</div>
-                            <div class="date">2018-9-9 21:23</div>
+                            <div class="username">{{item.user_name}}</div>
+                            <div class="date">{{item.comment_time}}</div>
                             <div class="content">
-                                我们用初中三年去盼望高中三年，高中三年去憧憬大学四年。
-                                而用大学四年去怀念中学六年，最终用一生去祭奠我们的青春。
+                                {{item.comment_content}}
                             </div>
+                        </div>
+                        <div class="reply">
+                            <a href="#" @click="replyCk">回复</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="comment-footer">
-            <input type="text" placeholder="发表评论">
-            <a href="#" class="sendBtn">发表</a>
+            <input type="text" :placeholder="inputHolder" v-model="comment">
+            <a v-if="isBtnShow" href="#" class="sendBtn" @click="publish">发表</a>
+            <a v-else href="#" class="sendBtn" @click="reply" >回复</a>
         </div>
     </div>
   </transition>
@@ -53,27 +56,88 @@
   export default {
       data(){
           return{
-              show:true
+              show:true,
+              isBtnShow:true,
+              comment:'',//评论内容
+              commentList:[],
+              inputHolder:"发表评论" //input框内PlaceHolder
           }
       },
       computed:{
           ...mapGetters([
               'isShow',
               'currentSong',
+              'userList',
               'isLogin'
           ])
       },
       created(){
-        console.log(this.currentSong)
       },
       methods:{
+          enter(){
+               this.$http.post('http://localhost:81/music/admin/api/checkComment',{
+                    mid:this.currentSong.mid
+                }, {emulateJSON: true})
+                .then(
+                    (response) => {
+                        this.commentList = response.data
+                    },
+                    (error) => {
+                        console.log(error)
+                    }
+                )
+              console.log("当前歌曲的mid" + this.currentSong.mid + this.currentSong.name)
+          },
           back(){
               this.setIsShow(false)
+          },
+          publish(){
+            if(this.comment == ''){
+                alert('发表内容不能为空')
+            }else if(this.comment.length < 10){
+                alert('发表内容长度不能少于10个字')
+            }else{
+                this.$http.post('http://localhost:81/music/admin/api/addComment',{
+                    mid:this.currentSong.mid,
+                    user_id:this.userList.user_id,
+                    comment:this.comment
+                }, {emulateJSON: true})
+                .then(
+                    (response) => {
+                        this.commentList = response.data 
+                        alert("发表成功")
+                        this.comment = ''
+                    },
+                    (error) => {
+                        console.log(error)
+                    }
+                )
+            }
+           
+          },
+          //回复点击事件
+          replyCk(){
+              this.isBtnShow = false
+              this.inputHolder = "回复"
+          },
+          //回复
+          reply(){
+              alert("这里是回复内容" + this.comment)
           },
           ...mapMutations({
               setIsShow:'SET_IS_SHOW'
           })
-      }
+      },
+    watch:{
+        currentSong(newSong,oldSong){
+            if(newSong.id === oldSong.id){
+                return
+            }else{
+                this.enter()
+            }
+
+        }
+    },
   }
 </script>
 
@@ -150,6 +214,7 @@
                 .msg
                     display flex
                     margin-bottom 10px
+                    justify-content space-between
                     .img-container
                         flex: 0 0 50px
                         img 
@@ -174,6 +239,11 @@
                             color:$color-text
                             font-size $font-size-medium
                             line-height 22px
+                    .reply
+                        display flex
+                        align-items flex-end
+                        padding-bottom 10px
+                        border-bottom 1px solid #5a555587
     .comment-footer
         position fixed
         display flex

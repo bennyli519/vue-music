@@ -23,11 +23,11 @@ export default new Router({
             redirect: '/mine'
         },
         {
-            path:'/login',
-            component:Login
+            path: '/login',
+            component: Login
         },
-        {    
-            path: '/mine', 
+        {
+            path: '/mine',
             component: Mine
         },
         {
@@ -35,10 +35,10 @@ export default new Router({
             component: Music,
             children: [{
                     path: 'singer',
-                    meta: {
-                    // 添加该字段，表示进入这个路由是需要登录的
-                        requireAuth: true,  
-                    }, 
+                    // meta: {
+                    // // 添加该字段，表示进入这个路由是需要登录的
+                    //     requireAuth: true,  
+                    // }, 
                     component: Singer,
                     children: [{
                         path: ':id',
@@ -53,21 +53,21 @@ export default new Router({
                         component: TopList
                     }]
                 },
-                { 
+                {
                     path: 'type',
                     component: Type,
                     children: [{
-                        path:':id',
+                        path: ':id',
                         component: TypeDetail
-                    }] 
+                    }]
                 },
-                { 
-                    path: 'cast', 
+                {
+                    path: 'cast',
                     component: Cast,
-                    children:[{
-                        path:':id',
+                    children: [{
+                        path: ':id',
                         component: CastDetail
-                    }] 
+                    }]
                 },
                 { path: '/disc/:id', component: DiscDetail }
             ]
@@ -75,8 +75,8 @@ export default new Router({
         {
             path: '/search',
             component: Search
-        },{
-            path:'/comment',
+        }, {
+            path: '/comment',
             component: CommentDetail
         }
     ]

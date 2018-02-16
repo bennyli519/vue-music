@@ -92,7 +92,7 @@
                 height 40px
                 color:#fff
                 background transparent
-                border 1px solid #fff
+                border 1px solid #524d4d
                 text-indent 15px
                 border-radius 4px
                 outline-color hsla(147, 98%, 50%, 0.53)
