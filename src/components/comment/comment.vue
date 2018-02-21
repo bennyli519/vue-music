@@ -24,19 +24,21 @@
             <div class="comment-wrapper">
                 <h3>评论区</h3>
                 <div class="msg-container">
-                    <div class="msg"  v-for="item in commentList">
+                    <div class="msg"  v-for="(item,index) in commentList">
                         <div class="img-container">
                             <img :src="item.user_avtar">
                         </div>
                         <div class="user">
-                            <div class="username">{{item.user_name}}</div>
+                            <div class="username" ref="username">{{item.user_name}}</div>
                             <div class="date">{{item.comment_time}}</div>
                             <div class="content">
                                 {{item.comment_content}}
+                                <!-- <div class="replycontent">
+                                </div> -->
                             </div>
                         </div>
                         <div class="reply">
-                            <a href="#" @click="replyCk">回复</a>
+                            <a href="#" @click="replyCk(index)">回复</a>
                         </div>
                     </div>
                 </div>
@@ -60,7 +62,8 @@
               isBtnShow:true,
               comment:'',//评论内容
               commentList:[],
-              inputHolder:"发表评论" //input框内PlaceHolder
+              inputHolder:"发表评论", //input框内PlaceHolder
+              replyPerson:''
           }
       },
       computed:{
@@ -75,12 +78,15 @@
       },
       methods:{
           enter(){
+               this.isBtnShow = true
+               this.inputHolder = "发表评论"
                this.$http.post('http://localhost:81/music/admin/api/checkComment',{
                     mid:this.currentSong.mid
                 }, {emulateJSON: true})
                 .then(
                     (response) => {
                         this.commentList = response.data
+                        console.log(this.commentList)
                     },
                     (error) => {
                         console.log(error)
@@ -116,13 +122,15 @@
            
           },
           //回复点击事件
-          replyCk(){
+          replyCk(index){
               this.isBtnShow = false
-              this.inputHolder = "回复"
+              this.replyPerson = this.$refs.username[index].innerHTML
+              this.inputHolder = "回复@"+ this.replyPerson
+          
           },
           //回复
           reply(){
-              alert("这里是回复内容" + this.comment)
+              alert("这里是回复内容" + this.comment+ this.replyPerson)
           },
           ...mapMutations({
               setIsShow:'SET_IS_SHOW'
@@ -239,6 +247,17 @@
                             color:$color-text
                             font-size $font-size-medium
                             line-height 22px
+                            .comment_content
+                                padding-bottom 5px
+                                margin-bottom 5px
+                                border-bottom 1px solid #5a555587
+                            .replycontent
+                                img
+                                  width 50px
+                                  height 50px
+                                  border-radius 50%
+                                  vertical-align bottom
+
                     .reply
                         display flex
                         align-items flex-end
