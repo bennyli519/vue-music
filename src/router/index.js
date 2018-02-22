@@ -14,6 +14,8 @@ import TypeDetail from 'components/type-detail/type-detail'
 import DiscDetail from 'components/disc-detail/disc-detail'
 import CastDetail from 'components/cast-detail/cast-detail'
 import CommentDetail from 'components/comment/comment'
+import Recent from 'components/recentPlay/recent'
+import Favorite from 'components/favorite/favorite'
 Vue.use(Router)
 
 export default new Router({
@@ -28,7 +30,16 @@ export default new Router({
         },
         {
             path: '/mine',
-            component: Mine
+            component: Mine,
+            children: [{
+                    path: 'recent',
+                    component: Recent
+                },
+                {
+                    path: 'favorite',
+                    component: Favorite
+                }
+            ]
         },
         {
             path: '/music',

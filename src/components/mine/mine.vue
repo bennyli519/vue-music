@@ -18,8 +18,8 @@ Description
       <div class="mine-nav">
         <a href="#" class="nav-item"><i class="icon-music"></i><span>全部歌曲</span></a>
         <a href="#" class="nav-item"><i class="icon-download"></i><span>下载歌曲</span></a>
-        <a href="#" class="nav-item"><i class="icon-recent"></i><span>最近播放</span></a>
-        <a href="#" class="nav-item"><i class="icon-favoriate"></i><span>我喜欢</span></a>
+        <router-link to="/mine/recent"  class="nav-item"><i class="icon-recent"></i><span>最近播放</span></router-link>
+        <router-link to="/mine/favorite" class="nav-item"><i class="icon-not-favorite"></i><span>我喜欢</span></router-link>
       </div>
       <ul class="broad-cast-list">
         <li>
@@ -61,8 +61,8 @@ Description
             </li>
         </ul>
       </div>
+      <router-view></router-view>
     </div>
-
 </template>
 
 <script>
@@ -165,7 +165,7 @@ Description
         &:nth-child(3),
         &:nth-child(4)
           margin-top:20px
-        .icon-music,.icon-download,.icon-recent,.icon-favoriate
+        .icon-music,.icon-download,.icon-recent,.icon-not-favorite
           display:block
           font-size:30px
           color:$color-icon-theme

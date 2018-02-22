@@ -81,7 +81,7 @@
                 </div>
                 <div class="operators1">
                     <div class="icon-wrapper">
-                        <i class="icon-favoriate"></i>
+                        <i @click="toggleFavorite(currentSong)" :class="getFavoriteIcon(currentSong)"></i>
                         <i class="icon-comment" @click="openComment"></i>
                         <!-- <router-link to="/comment" class="icon"> 
                             <i class="icon-comment" @click="openComment"></i>
@@ -124,11 +124,13 @@
   import {shuffle} from 'common/js/util'
   import Lyric from 'lyric-parser'
   import Scroll from 'base/scroll/scroll'
+  import {playerMixin} from 'common/js/mixin'
 
   const transform = prefixStyle('transform')
   const transitionDuration = prefixStyle('transitionDuration')
 
   export default {
+    mixins: [playerMixin],
     data(){
         return{
             songReady: false,
