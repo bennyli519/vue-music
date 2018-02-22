@@ -75,8 +75,8 @@
                     <div class="icon i-right" :class="disableCls">
                         <i @click="next" class="icon-next_circle"></i>
                     </div>
-                    <div class="icon i-right">
-                        <i class="icon-playlist"></i>
+                    <div class="icon i-right" @click.stop="showPlaylist">
+                        <i class="icon-playlist" ></i>
                     </div>
                 </div>
                 <div class="operators1">
@@ -105,17 +105,18 @@
                     <i @click.stop="togglePlaying" class="icon-mini" :class="miniIcon"></i>
                 </progress-circle>
             </div>
-            <div class="control">
+            <div class="control" @click.stop="showPlaylist">
                 <i class="icon-playlist"></i>
             </div>
         </div>
     </transition>
+    <playlist ref="playlist"></playlist>
     <audio ref="audio":src="currentSong.url" @canplay="ready" @error="error" @timeupdate="updateTime" @ended="end"></audio>
   </div>
 </template>
 
 <script>
-  import {mapGetters, mapMutations} from 'vuex'
+  import {mapGetters, mapMutations, mapActions} from 'vuex'
   import animations from 'create-keyframe-animation'
   import {prefixStyle} from 'common/js/dom'
   import ProgressBar from 'base/progress-bar/progress-bar'
@@ -125,6 +126,7 @@
   import Lyric from 'lyric-parser'
   import Scroll from 'base/scroll/scroll'
   import {playerMixin} from 'common/js/mixin'
+  import Playlist from 'components/playlist/playlist'
 
   const transform = prefixStyle('transform')
   const transitionDuration = prefixStyle('transitionDuration')
@@ -293,6 +295,7 @@
         },
         ready(){
             this.songReady = true
+            this.savePlayHistory(this.currentSong)
         },
         error(){
             this.songReady = true
@@ -364,6 +367,9 @@
                 this.$refs.lyricList.scrollTo(0, 0, 1000)
             }
             this.playingLyric = txt
+        },
+        showPlaylist() {
+          this.$refs.playlist.show()
         },
         middleTouchStart(e) {
             this.touch.initiated = true
@@ -448,7 +454,10 @@
             setPlayMode:'SET_PLAY_MODE',
             setPlayList:'SET_PLAYLIST',
             setIsShow:'SET_IS_SHOW'
-        })
+        }),
+        ...mapActions([
+            'savePlayHistory'
+        ])
     },
     watch:{
         currentSong(newSong,oldSong){
@@ -475,7 +484,8 @@
     components:{
         ProgressBar,
         ProgressCircle,
-        Scroll
+        Scroll,
+        Playlist
     }
   }
 </script>
@@ -656,8 +666,11 @@
           align-items: center
           .icon-wrapper
             margin 0 auto
+            .icon-favorite
+                color #d93f30
             .icon
                 color: $color-text-ll
+
             &.disable
               color: $color-text-ll
             i        

@@ -17,7 +17,7 @@ const state = {
     isShow: false, //评论页面
     searchHistory: loadSearch(),
     playHistory: loadPlay(),
-    favoriteList: loadFavorite()
+    favoriteList: loadFavorite() //收藏列表
 
 }
 

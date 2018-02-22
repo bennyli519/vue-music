@@ -14,7 +14,7 @@
             <h1 class="title">我喜欢</h1>
         </div>
         <div class="list-wrapper">
-            <div class="list-inner">
+            <div class="list-inner" ref="scroll">
                 <song-list :songs="favoriteList" @select="selectSong"></song-list>
             </div>
         </div>
@@ -33,7 +33,7 @@
   import {mapGetters, mapActions} from 'vuex'
   import {playlistMixin} from 'common/js/mixin'
   export default {
-    //   mixins: [playlistMixin],
+      mixins: [playlistMixin],
       computed:{
           noResult(){
               return !this.favoriteList.length
@@ -50,8 +50,8 @@
       },
       methods:{
           handlePlaylist(playlist) {
-            const bottom = playlist.length > 0 ? '60px' : ''
-            this.$refs.favoriteList && this.$refs.favoriteList.refresh()()
+            const bottom = playlist.length > 0 ? '95px' : ''
+               this.$refs.scroll.style['padding-bottom'] = bottom
           },
           back(){
             this.$router.back()
@@ -86,6 +86,8 @@
     width: 100%
     background:$color-background
     .titlebar
+        position fixed
+        top 0px
         height:40px
         width 100% 
         border-bottom: 1px solid #5a555587
@@ -111,8 +113,12 @@
             font-size: $font-size-large
             color: $color-text
     .list-wrapper
+        position relative
+        margin-top 40px
+        overflow: scroll;
+        height: 100%;
         .list-inner
-            padding 20px 30px
+            padding 0px 30px 30px
     .no-result-wrapper
       position: absolute
       width: 100%
