@@ -6,7 +6,7 @@ Description
 -->
 <template>
 
-    <div class="mine-content">
+    <div class="mine-content"  ref="scroll">
       <div class="user" v-if="isLogin">
         <img :src="userList.user_avtar" class="thumb">
         <div class="user-name">{{ userList.user_name }}</div>
@@ -34,32 +34,26 @@ Description
       </ul>
       <div class="songList">
         <div class="list-title">
-          <h1>每日歌曲推荐</h1>
+          <h1>猜你喜欢</h1>
           <!-- <a href="#" class="self-list">自建歌单</a>
           <a href="#" class="collect-list">收藏歌单</a>
           <a href="#" class="add" ><i class="icon-add"></i></a>
           <a href="#" class="playlist"><i class="icon-list"></i></a> -->
         </div>
-        <ul class="personal-list">
-            <li>
-                <div class="media">
-                  <div class="media-left"><img src="../../common/image/default.png" alt=""></div>
-                  <div class="media-body">
-                    <span class="title">歌曲一</span>
-                    <p class="recommend">来听听我为你定制的音乐吧！</p>
-                  </div>
-                </div>
-            </li>
-            <li>
-                <div class="media">
-                  <div class="media-left"><img src="../../common/image/default.png" alt=""></div>
-                  <div class="media-body">
-                    <span class="title">歌曲2</span>
-                    <p class="recommend">来听听我为你定制的音乐吧！</p>
-                  </div>
-                </div>
-            </li>
+        <ul class="person-list"> 
+          <li @click="selectSong(item,index)" class="item"  v-for="(item,index) in songList">
+            <div class="icon">
+              <img :src="item.image" width="60" height="60">
+            </div>
+            <div class="text">
+                <h2 class="name">{{ item.name }}</h2>
+                <p class="desc">{{ item.singer }}·{{ item.album }}</p>
+            </div>
+          </li>
         </ul>
+        <div class="loading-container" v-show="!songList.length">
+          <loading></loading>
+        </div> 
       </div>
       <router-view></router-view>
     </div>
@@ -67,10 +61,15 @@ Description
 
 <script>
   import {mapGetters,mapActions} from 'vuex'
+  import Loading from 'base/loading/loading'
+  import {createSong} from 'common/js/song'
+  import {playlistMixin} from 'common/js/mixin'
   export default {
+    mixins: [playlistMixin],
     data(){
       return{
-        msg:''
+        msg:'',
+        songList:[]//猜你喜欢歌曲列表
       }
     },
     computed:{
@@ -85,12 +84,41 @@ Description
           this.loginMes({
             userMsg:this.msg 
         });
+        this._getLike(this.msg.user_name)
       }
     },
     methods:{
-        ...mapActions([
-            'loginMes'
-        ])
+      handlePlaylist(playlist) {
+        const bottom = playlist.length > 0 ? '60px' : ''
+        this.$refs.scroll.style['padding-bottom'] = bottom
+      },
+      _getLike(username){
+        this.$http.post('http://localhost:81/music/admin/api/recom', {name:username},{emulateJSON: true})
+        .then(
+            (response) => {
+                this.songList = this._normalizeSongs(response.data)
+                console.log(this.songList)
+            },
+            (error) => {
+                console.log(error)
+            }
+        )
+      },
+      _normalizeSongs(list) {
+          let ret = []
+          list.forEach((item) => {
+              if (item.song_mid && item.album_mid) {
+                  ret.push(createSong(item,item.song_mid))
+              }
+          })
+          return ret
+      },
+      ...mapActions([
+          'loginMes'
+      ])
+    },
+    components:{
+      Loading
     }
      // watch:{
     //   userMsg:function(nweMsg,oldMsg){
@@ -184,10 +212,32 @@ Description
         align-items: center
         color #68de6c
         border-bottom:1px solid $color-border
-      .personal-list
-        li
+      .person-list
+        height 150px
+        .item
+          display: flex
+          box-sizing: border-box
+          align-items: center
+          padding: 0 20px 0px 20px
           border-bottom:1px solid $color-border
-          
+          .icon
+            flex: 0 0 60px
+            width: 60px
+            padding-right: 20px
+          .text
+            display: flex
+            flex-direction: column
+            justify-content: center
+            flex: 1
+            line-height: 20px
+            overflow: hidden
+            font-size: $font-size-medium
+            .name
+              margin-bottom: 10px
+              color: $color-text
+            .desc
+              color: $color-text-d
+            
           
           
           
