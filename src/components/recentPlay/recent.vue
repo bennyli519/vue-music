@@ -118,7 +118,7 @@
         overflow: scroll;
         height: 100%;
         .list-inner
-            padding 0px 30px 30px
+            padding 0px 30px 50px
     .no-result-wrapper
       position: absolute
       width: 100%
