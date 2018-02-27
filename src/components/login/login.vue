@@ -42,10 +42,16 @@
                             this.loginMes({
                                 userMsg:this.userMsg 
                             });
-                            this.$router.push('/music')
-                            this.setIsShow(true)
-                            this.setPlayingState(true)
-                            this.$refs.container.style['display'] = 'none'
+       
+                            if(this.$route.query.from == "mine"){
+                                this.$router.push('/mine')
+                            }else{
+                                this.$router.push('/music')
+                                this.setIsShow(true)
+                                this.setPlayingState(true)
+                                this.$refs.container.style['display'] = 'none'
+                            }
+                           
                             //this.currentUrl = this.$route.query.redirect
                             // console.log(this.currentUrl)
                             // this.$router.push({ path: this.currentUrl })    

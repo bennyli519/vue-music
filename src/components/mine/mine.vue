@@ -13,7 +13,7 @@ Description
       </div>
       <div class="unLogin" v-else>
         <p class="text">您还未登陆哦~</p>
-        <router-link class="login-btn" to="/login">立即登陆</router-link>
+        <router-link class="login-btn" :to="{ path: '/login', query: { from: 'mine' }}">立即登陆</router-link>
       </div>
       <div class="mine-nav">
         <a href="#" class="nav-item"><i class="icon-music"></i><span>全部歌曲</span></a>
@@ -21,7 +21,7 @@ Description
         <router-link to="/mine/recent"  class="nav-item"><i class="icon-recent"></i><span>最近播放</span></router-link>
         <router-link to="/mine/favorite" class="nav-item"><i class="icon-not-favorite"></i><span>我喜欢</span></router-link>
       </div>
-      <ul class="broad-cast-list">
+      <!-- <ul class="broad-cast-list">
         <li>
           <div class="media">
             <div class="media-left"><img src="../../common/image/default.png" alt=""></div>
@@ -31,7 +31,7 @@ Description
             </div>
           </div>
         </li>
-      </ul>
+      </ul> -->
       <div class="songList">
         <div class="list-title">
           <h1>猜你喜欢</h1>
@@ -85,17 +85,37 @@ Description
             userMsg:this.msg 
         });
         this._getLike(this.msg.user_name)
+      }else{
+        this._getLike("null")
       }
+    },
+    watch:{
+      isLogin(newState,oldState){
+        this.$nextTick(function(){
+          this.songList = ''
+          if(newState && !oldState){
+              this._getLike(this.userList.user_name)
+          }
+        })
+      } 
     },
     methods:{
       handlePlaylist(playlist) {
         const bottom = playlist.length > 0 ? '60px' : ''
         this.$refs.scroll.style['padding-bottom'] = bottom
       },
+       // 猜你喜欢点击事件
+      selectSong(item,index){
+        this.selectPlay({
+          list:this.songList,
+          index
+        })
+      },
       _getLike(username){
-        this.$http.post('http://localhost:81/music/admin/api/recom', {name:username},{emulateJSON: true})
+        this.$http.post('http://localhost:81/music/admin/api/recom', {name:username,isLogin:this.isLogin},{emulateJSON: true})
         .then(
             (response) => {
+                console.log(response)
                 this.songList = this._normalizeSongs(response.data)
                 console.log(this.songList)
             },
@@ -114,19 +134,13 @@ Description
           return ret
       },
       ...mapActions([
+          'selectPlay',
           'loginMes'
       ])
     },
     components:{
       Loading
     }
-     // watch:{
-    //   userMsg:function(nweMsg,oldMsg){
-    //     this.isLogin = true
-    //     console.log("老的"+this.oldMsg)
-    //     console.log("新的"+this.thnewMsg)
-    //   }
-    // },
   }
 </script>
 <style lang="stylus" scoped>
@@ -178,7 +192,6 @@ Description
         color #000
         padding 10px 20px
         border-radius 4px
-        box-shadow 1px 2px 10px #b6e092
         background $color-text-l
     .mine-nav
       display:flex
@@ -213,7 +226,6 @@ Description
         color #68de6c
         border-bottom:1px solid $color-border
       .person-list
-        height 150px
         .item
           display: flex
           box-sizing: border-box
