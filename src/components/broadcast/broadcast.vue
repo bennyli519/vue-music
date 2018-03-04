@@ -130,7 +130,7 @@ Description
             color: $color-text
     .castlist
       height: 100%
-      overflow: hidden
+      overflow: scroll
       .item
         display: flex
         margin: 0 20px
