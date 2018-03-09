@@ -179,7 +179,8 @@
     },
     methods: {
         openComment(){
-            if(!this.isLogin){
+            // localStorage.getItem('userMsg');
+            if(! localStorage.getItem('userMsg')){
                 this.$router.push('/login')
                 this.setPlayingState(false)
             }else{

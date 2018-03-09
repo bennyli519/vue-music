@@ -27,28 +27,56 @@
 
 <script>
   import Scroll from 'base/scroll/scroll'
+  import Loading from 'base/loading/loading'
   import SongList from 'base/song-list/song-list'
   import NoResult from 'base/no-result/no-result'
   import Song from 'common/js/song'
   import {mapGetters, mapActions} from 'vuex'
   import {playlistMixin} from 'common/js/mixin'
+  import {createSong} from 'common/js/song'
+  import storage from 'good-storage'
+
+  const FAVORITE_KEY = '__favorite__'
+
   export default {
       mixins: [playlistMixin],
+      data(){
+          return{
+            list:[]
+          }
+      },
       computed:{
           noResult(){
-              return !this.favoriteList.length
+            this.$nextTick(function(){
+                return !this.favoriteList.length
+            })
           },
+          
           noResultDesc(){
-              return '暂无收藏歌曲'
+            return '暂无收藏歌曲'
           },
           ...mapGetters([
-              'favoriteList'
+              'favoriteList',
+              'userList'
           ])
-      },
+      },    
       created(){
-          console.log(this.favoriteList)
+          this._getCollect(this.userList.user_id)
+         // console.log(this.favoriteList)
       },
       methods:{
+            _getCollect(userid){
+                this.$http.post('http://localhost:81/music/admin/api/getCollect', {uid:userid},{emulateJSON: true})
+                .then(
+                    (response) => {
+                        this.list = this._normalizeSongs(response.data)
+                        storage.set(FAVORITE_KEY,this.list)
+                    },
+                    (error) => {
+                        console.log(error)
+                    }
+                )
+            },
           handlePlaylist(playlist) {
             const bottom = playlist.length > 0 ? '95px' : ''
                this.$refs.scroll.style['padding-bottom'] = bottom
@@ -59,6 +87,15 @@
           selectSong(song) {
             this.insertSong(new Song(song))
           },
+           _normalizeSongs(list) {
+                let ret = []
+                list.forEach((item) => {
+                    if (item.song_mid && item.album_mid) {
+                        ret.push(createSong(item,item.song_mid))
+                    }
+                })
+                return ret
+            },
           ...mapActions([
             'insertSong',
             'randomPlay'
@@ -67,7 +104,8 @@
       components: {
         Scroll,
         SongList,
-        NoResult
+        NoResult,
+        Loading
      }
   }
 </script>

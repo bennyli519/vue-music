@@ -10,6 +10,7 @@ Description
       <div class="user" v-if="isLogin">
         <img :src="userList.user_avtar" class="thumb">
         <div class="user-name">{{ userList.user_name }}</div>
+        <div class="logout-btn" @click="logout">退出</div>
       </div>
       <div class="unLogin" v-else>
         <p class="text">您还未登陆哦~</p>
@@ -60,7 +61,7 @@ Description
 </template>
 
 <script>
-  import {mapGetters,mapActions} from 'vuex'
+  import {mapGetters,mapActions,mapMutations} from 'vuex'
   import Loading from 'base/loading/loading'
   import {createSong} from 'common/js/song'
   import {playlistMixin} from 'common/js/mixin'
@@ -100,6 +101,14 @@ Description
       } 
     },
     methods:{
+      logout(){
+        localStorage.clear();
+        this.setIsLogin(false);
+        this.$router.push({      
+          path:'/login',
+          query:{from:'mine'}
+        })
+      },
       handlePlaylist(playlist) {
         const bottom = playlist.length > 0 ? '60px' : ''
         this.$refs.scroll.style['padding-bottom'] = bottom
@@ -136,7 +145,10 @@ Description
       ...mapActions([
           'selectPlay',
           'loginMes'
-      ])
+      ]),
+      ...mapMutations({
+          setIsLogin:'SET_IS_LOGIN'
+      }),
     },
     components:{
       Loading
@@ -180,6 +192,14 @@ Description
       .user-name:after
         content:"-"
         margin-left:20px
+      .logout-btn
+        text-align center
+        margin-top 10px
+        width 60%
+        color #000
+        padding 10px 20px
+        border-radius 4px
+        background $color-text-l
     .unLogin
       display:flex
       flex-direction:column

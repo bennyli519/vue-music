@@ -33,12 +33,20 @@
                             <div class="date">{{item.comment_time}}</div>
                             <div class="content">
                                 {{item.comment_content}}
-                                <!-- <div class="replycontent">
-                                </div> -->
+                                <div class="replycontent" v-if="item.from_uid">
+                                    <img :src="item.from_uid.user_avtar">
+                                    <div class="main">
+                                        <div class="username">{{ item.from_uid.user_name }}</div>
+                                        <div class="date">{{item.reply_time}}</div>
+                                        <div class="content">
+                                            {{ item.reply_content }}
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="reply">
-                            <a href="#" @click="replyCk(index)">回复</a>
+                            <a href="#" @click="replyCk(index,item.user_id,item.comment_id)" v-if="item.user_name == userList.user_name ? false : true">回复</a>
                         </div>
                     </div>
                 </div>
@@ -63,7 +71,9 @@
               comment:'',//评论内容
               commentList:[],
               inputHolder:"发表评论", //input框内PlaceHolder
-              replyPerson:''
+              replyPerson:'',
+              replyId:'',
+              currentCommentId:''
           }
       },
       computed:{
@@ -122,15 +132,40 @@
            
           },
           //回复点击事件
-          replyCk(index){
+          replyCk(index,item,cid){
               this.isBtnShow = false
               this.replyPerson = this.$refs.username[index].innerHTML
+              this.replyId = item
+              this.currentCommentId = cid
               this.inputHolder = "回复@"+ this.replyPerson
           
           },
           //回复
           reply(){
-              alert("这里是回复内容" + this.comment+ this.replyPerson)
+            if(this.comment == ''){
+                alert('发表内容不能为空')
+            }else if(this.comment.length < 10){
+                alert('发表内容长度不能少于10个字')
+            }else{
+                this.$http.post('http://localhost:81/music/admin/api/addReply',{
+                    mid:this.currentSong.mid,
+                    cid:this.currentCommentId,
+                    from_id:this.userList.user_id,
+                    to_id:this.replyId,
+                    comment:this.comment
+                }, {emulateJSON: true})
+                .then(
+                    (response) => {
+                        this.commentList = response.data 
+                        alert("回复成功")
+                        this.comment = ''
+                        console.log(response)
+                    },
+                    (error) => {
+                        console.log(error)
+                    }
+                )
+            }
           },
           ...mapMutations({
               setIsShow:'SET_IS_SHOW'
@@ -252,11 +287,23 @@
                                 margin-bottom 5px
                                 border-bottom 1px solid #5a555587
                             .replycontent
+                                display flex
+                                margin-top 15px
                                 img
+                                  flex 0 0 50px
                                   width 50px
                                   height 50px
                                   border-radius 50%
                                   vertical-align bottom
+                                .main
+                                    flex 1
+                                    overflow hidden
+                                    color $color-text-l
+                                    word-break break-word
+                                    padding 0 0 0 8px
+                                    flex-direction: column
+                                    .date
+                                        font-size $font-size-small
 
                     .reply
                         display flex
