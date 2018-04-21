@@ -103,6 +103,7 @@ Description
     methods:{
       logout(){
         localStorage.clear();
+        this.setPlayingState(false);
         this.setIsLogin(false);
         this.$router.push({      
           path:'/login',
@@ -124,7 +125,6 @@ Description
         this.$http.post('http://localhost:81/music/admin/api/recom', {name:username,isLogin:this.isLogin},{emulateJSON: true})
         .then(
             (response) => {
-                console.log(response)
                 this.songList = this._normalizeSongs(response.data)
                 console.log(this.songList)
             },
@@ -147,7 +147,8 @@ Description
           'loginMes'
       ]),
       ...mapMutations({
-          setIsLogin:'SET_IS_LOGIN'
+          setIsLogin:'SET_IS_LOGIN',
+          setPlayingState:'SET_PLAYING_STATE'
       }),
     },
     components:{

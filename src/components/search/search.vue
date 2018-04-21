@@ -41,8 +41,9 @@
   import {getHotKey} from 'api/search'
   import {ERR_OK} from 'api/config'
   import {mapActions,mapGetters} from 'vuex'
-
+  import {playlistMixin, searchMixin} from 'common/js/mixin'
   export default {
+    mixins: [playlistMixin, searchMixin],
     data() {
       return {
         hotKey: [],
@@ -58,6 +59,9 @@
       this._getHotKey()
     },
     methods: {
+      handlePlaylist(playlist) {
+        const bottom = playlist.length > 0 ? '60px' : ''
+      },
       addQuery(query){
         this.$refs.searchBox.setQuery(query)
       },
